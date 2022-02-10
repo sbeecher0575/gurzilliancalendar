@@ -1,0 +1,153 @@
+.maru{
+    background-color: rgb(175, 110, 12);
+    color: white;
+    font-size: 30pt;
+}
+
+input.maru:hover{
+    background-color: white;
+    color: rgb(175, 110, 12);
+}
+
+.bellust{
+    background-color: rgb(235, 90, 33);
+    color: white;
+    font-size: 30pt;
+}
+
+input.bellust:hover{
+    background-color: white;
+    color: rgb(235, 90, 33);
+}
+
+.istari{
+    background-color: rgb(158, 7, 100);
+    color: white;
+    font-size: 30pt;
+}
+
+input.istari:hover{
+    background-color: white;
+    color: rgb(158, 7, 100);
+}
+
+.janusary{
+    background-color: rgb(74, 165, 0);
+    color: white;
+    font-size: 30pt;
+}
+
+input.janusary:hover{
+    background-color: white;
+    color: rgb(74, 165, 0);
+}
+
+.amani{
+    background-color: rgb(159, 0, 165);
+    color: white;
+    font-size: 30pt;
+}
+
+input.amani:hover{
+    background-color: white;
+    color: rgb(159, 0, 165);
+}
+
+.concordium{
+    background-color: rgb(0, 3, 180);
+    color: white;
+    font-size: 30pt;
+}
+
+input.concordium:hover{
+    background-color: white;
+    color: rgb(0, 3, 180);
+}
+
+.settember{
+    background-color: rgb(241, 0, 0);
+    color: white;
+    font-size: 30pt;
+}
+
+input.settember:hover{
+    background-color: white;
+    color: rgb(241, 0, 0);
+}
+
+.helios{
+    background-color: rgb(215, 218, 42);
+    color: white;
+    font-size: 30pt;
+}
+
+input.helios:hover{
+    background-color: white;
+    color: rgb(215, 218, 42);
+}
+
+.baldra{
+    background-color: rgb(0, 185, 161);
+    color: white;
+    font-size: 30pt;
+}
+
+input.baldra:hover{
+    background-color: white;
+    color: rgb(0, 185, 161);
+}
+
+.vishnuber{
+    background-color: rgb(236, 2, 119);
+    color: white;
+    font-size: 30pt;
+}
+
+input.vishnuber:hover{
+    background-color: white;
+    color: rgb(236, 2, 119);
+}
+
+.kalai{
+    background-color: rgb(1, 39, 82);
+    color: white;
+    font-size: 30pt;
+}
+
+input.kalai:hover{
+    background-color: white;
+    color: rgb(1, 39, 82);
+}
+
+.ahrima{
+    background-color: rgb(8, 100, 0);
+    color: white;
+    font-size: 30pt;
+}
+
+input.ahrima:hover{
+    background-color: white;
+    color: rgb(8, 100, 0);
+}
+
+.nott{
+    background-color: rgb(88, 0, 0);
+    color: white;
+    font-size: 30pt;
+}
+
+input.nott:hover{
+    background-color: white;
+    color: rgb(88, 0, 0);
+}
+
+.midwinter{
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-size: 30pt;
+}
+
+input.midwinter:hover{
+    background-color: white;
+    color: rgb(0, 0, 0);
+}

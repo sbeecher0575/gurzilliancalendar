@@ -1,0 +1,133 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    text-transform: uppercase;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#month{
+    width: 75%;
+    height:92%;
+    display:flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 8px;
+}
+
+#lines{
+    height:8px;
+    width:100%;
+}
+
+#monthName{
+    width:100%;
+    flex-grow:1;
+    text-align:center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+}
+
+#displayYear{
+    font-size: medium;
+    display: block;
+    flex-grow: .1;
+}
+
+#weekdays{
+    width:100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-size: medium;
+}
+
+.week{
+    width:100%;
+    flex-grow: 2;
+    display: flex;
+}
+
+.lastweek{
+    display: none !important;
+}
+
+.day{
+    flex-grow:1;
+    height: 100%;
+    border:2px solid white;
+    position: relative;
+    background-color: rgb(161, 161, 161);
+    font-size: 4vmin !important;
+    transition-duration: .4s;
+}
+
+.day:hover{
+    flex-grow:1;
+    height: 100%;
+    border:2px solid white;
+    position: relative;
+    background-color: rgb(136, 136, 136);
+    font-size: 4vmin;
+}
+
+.daylabel{
+    flex-grow: 1;
+}
+
+.daynumber{
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    color: rgb(255, 255, 255);
+}
+
+.gregorian.currentDayNumber, .daynumber.currentDayNumber{
+    color: rgb(31, 31, 31) !important;
+}
+
+.gregorian.extraDay, .daynumber.extraDay{
+    color:rgba(212, 212, 212, 0.55);
+}
+
+.gregorian.extraDay.currentDayNumber, .daynumber.extraDay.currentDayNumber{
+    color: rgb(65, 65, 65) !important;
+}
+
+.gregorian{
+    position: absolute;
+    right:5px;
+    bottom: 5px;
+    font-size: 2.5vmin;
+    color: white;
+}
+
+#leftButton{
+    left: 0px;
+}
+
+#rightButton{
+    right: 0px;
+}
+
+#leftButton,#rightButton{
+    position:absolute;
+    height:100%;
+    width:8%;
+    top:0px;
+    transition-duration: .4s;
+    border: none;
+}
+
+html{
+    width:100%;
+    height:100%
+}
+
+body{
+    width:100%;
+    height: 100%;
+}
