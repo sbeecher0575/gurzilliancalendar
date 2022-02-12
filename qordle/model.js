@@ -201,6 +201,11 @@ var makeModel = function(){
 			_observers.notify();
 		},
 		
+		"setShareText": function(){
+			_recentError = "This button is currently under development.\nTry taking a screenshot :)";
+			_observers.notify();
+		},
+		
 		"getAnswer": function(){
 			return _correctAnswers;
 		},
@@ -247,7 +252,8 @@ var makeController = function(model){
 					await _model.setAnswerWords();
 					break;
 				case (DATA.signals.EXPORT):
-					_model.setCopied();
+					//_model.setCopied();
+					_model.setShareText();
 					break;
 				default:
 					console.log("Unrecognized event", evt);
