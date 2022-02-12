@@ -1,0 +1,98 @@
+html{
+	background-color: black;
+}
+body{
+	background-color: black;
+}
+#guessContainer{
+	width:100%;
+	height:50%;
+	text-align: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-evenly;
+	align-items: center;
+	align-content: center;
+	margin: 10px;
+}
+
+.guesses{
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	font-size: 50pt;
+	margin: 10px;
+	width: 95%;
+}
+
+.guessLine {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+#letters{
+	display: flex;
+	flex-wrap: wrap;
+	font-size: 100pt;
+	margin: auto;
+	width: 95%;
+	justify-content: center;
+	justify-items: center;
+	align-items: center;
+}
+
+.letterBox{
+	border: solid 2px white;
+	font-family: monospace;
+	font-size: inherit;
+	color: white;
+	width: min-content;
+	height: min-content;
+}
+
+.letterBox.close{
+	background-color: #5d00ff;
+}
+
+.letterBox.correct{
+	background-color: green;
+}
+
+#submitButton, #exportButton{
+	width: 30%;
+	margin: 50px auto auto auto;
+	font-size: 35pt;
+	background-color: black;
+	border: solid 2px white;
+	border-radius: 15px;
+	color: white;
+}
+
+#exportButton.dis{
+	display: none;
+}
+
+#exportButton.en{
+	display: inline;
+}
+
+.letterBox.wrong{
+	background-color: black;
+	color: #4a4a4a;
+}
+
+#errBox {
+	color: white;
+	text-align: center;
+	width: 100%;
+	font-size: 50pt;
+	margin-top:20px;
+}
+
+#btnDiv {
+	width: 100%;
+	text-align: center;
+}
