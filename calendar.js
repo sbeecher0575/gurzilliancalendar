@@ -179,9 +179,9 @@ var gurz2greg = function(monthString, day){
 }
 
 var greg2gurz = function(gregDate){
-    var yearDays = Math.ceil((gregDate.getTime() - getStartYear(gregDate.getFullYear()).getTime())/(1000*3600*24))
+    var yearDays = Math.ceil((gregDate.getTime() - getStartYear(gregDate.getFullYear()).getTime())/(1000*3600*24))-1
     var gurzMonth = months[Math.floor(yearDays/28)]
-    var gurzDay = yearDays%28
+    var gurzDay = (yearDays%28)+1
     return [gurzMonth, gurzDay]
 }
 
