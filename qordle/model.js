@@ -284,35 +284,58 @@ var makeWordLine = function(word,classVal,format){
 	return d;
 }
 
+var makeIndicatorBox = function(){
+	var box = document.createElement("div");
+	box.setAttribute("class","indicators");
+	return box;
+}
+
+var makeIndicator = function(val){
+	var ind = document.createElement("div");
+	ind.setAttribute("class","indicator");
+	ind.classList.add(val);
+	return ind;
+}
+
 var makeLetters = function(divId,format){
 	var d = document.getElementById(divId);
 	var word = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	var qwerty = ["QWERTYUIOP","ASDFGHJKL","ZXCVBNM"];
 	rFormat = []
 	for(var i=0;i<word.length;i++){
-		var s = document.createElement("span");
-		s.setAttribute("class","letterBox");
-		s.innerHTML = word[i];
-		s.setAttribute("data-contents",word[i]);
-		rFormat.push(".");
+		var s = document.createElement("div");
+		s.setAttribute("class","letterBoxDiv");
+		var content = document.createElement("span");
+		content.setAttribute("class","letterBoxSpan");
+		content.innerHTML = word[i];
+		content.setAttribute("data-contents",word[i]);
+		s.appendChild(content);
+		s.appendChild(makeIndicatorBox());
+		rFormat.push([]);
+		for(var j=0;j<format.length;j++){
+			rFormat[i].push(".");
+		}
 		for(var j=0;j<format.length;j++){
 			if(format[j][i]=="+"){
-				rFormat[i]="+";
+				rFormat[i][j]="+";
 			}
-			if(format[j][i]=="-" && rFormat[i]!="+"){
-				rFormat[i]="-";
+			if(format[j][i]=="-" && rFormat[i][j]!="+"){
+				rFormat[i][j]="-";
 			}
-			if(format[j][i]=="_" && rFormat[i]=="."){
-				rFormat[i]="_";
+			if(format[j][i]=="_" && rFormat[i][j]=="."){
+				rFormat[i][j]="_";
 			}
 		}
-		if(rFormat[i]=="+"){
-			s.classList.add("correct");
-		}
-		if(rFormat[i]=="-"){
-			s.classList.add("close");
-		}
-		if(rFormat[i]=="_"){
-			s.classList.add("wrong");
+		for(var j=0;j<format.length;j++){
+			if(rFormat[i][j]=="+"){
+				s.lastChild.appendChild(makeIndicator("correct"));
+			}
+			if(rFormat[i][j]=="-"){
+				s.lastChild.appendChild(makeIndicator("close"));
+			}
+			if(rFormat[i][j]=="_"){
+				s.lastChild.appendChild(makeIndicator("wrong"));
+			}
 		}
 		d.appendChild(s);
 	}
@@ -385,7 +408,7 @@ var makeLetterView = function(model,divId){
 			}
 			makeLetters(_id,_letterFormat);
 			for(var i=0;i<box.children.length;i++){
-				if(box.children[i].getAttribute("data-contents").length==1){
+				if(box.children[i].children[0]!= null && box.children[i].children[0].getAttribute("data-contents").length==1){
 					box.children[i].addEventListener("click",function(e){
 						console.log(e.target.getAttribute("data-contents"));
 						document.dispatchEvent(new KeyboardEvent('keydown',{'keyCode':e.target.getAttribute("data-contents").charCodeAt(0)}));
