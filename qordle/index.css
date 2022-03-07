@@ -103,21 +103,24 @@ body{
 }
 
 span.letterBoxSpan {
-    font-size: inherit;
+    font-size: 100px;
     color: white;
     font-family: monospace;
     width: min-content;
     height: min-content;
     z-index: 10;
-    position: relative;
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%,-50%);
 }
 
 .letterBoxDiv {
     border: 2px solid white;
-    width: min-content;
-    height: min-content;
+    width: 100px;
+    height: 100px;
     position: relative;
-	display: inline-block;
+    display: inline-block;
 }
 
 .indicator {
@@ -147,4 +150,40 @@ span.letterBoxSpan {
     height: 100%;
     flex-direction: row;
     flex-wrap: wrap;
+}
+
+.keyboardRow {
+    width: max-content;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+span.letterBoxSpan.back {
+    width: 100%;
+    height: 100%;
+}
+
+.letterBoxDiv.back, .letterBoxDiv.enter {
+    width: 150px;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-size: 120px;
+    background-position: center;
+}
+
+.letterBoxDiv.back {
+    background-image: url("back.png");
+}
+
+.letterBoxDiv.enter {
+    background-image: url("enter.png");
+}
+
+.keyboard > .keyboardRow:first-child ~.keyboardRow {
+    margin-top: 10px;
+}
+
+.keyboardRow > .letterBoxDiv:first-child ~ .letterBoxDiv {
+    margin-left: 10px;
 }

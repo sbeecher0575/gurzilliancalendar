@@ -299,51 +299,71 @@ var makeIndicator = function(val){
 
 var makeLetters = function(divId,format){
 	var d = document.getElementById(divId);
-	var word = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	var alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	var qwerty = ["QWERTYUIOP","ASDFGHJKL","ZXCVBNM"];
+	var keyboard = document.createElement("div");
+	keyboard.setAttribute("class","keyboard");
 	rFormat = []
-	for(var i=0;i<word.length;i++){
-		var s = document.createElement("div");
-		s.setAttribute("class","letterBoxDiv");
-		var content = document.createElement("span");
-		content.setAttribute("class","letterBoxSpan");
-		content.innerHTML = word[i];
-		content.setAttribute("data-contents",word[i]);
-		s.appendChild(content);
-		s.appendChild(makeIndicatorBox());
-		rFormat.push([]);
-		for(var j=0;j<format.length;j++){
-			rFormat[i].push(".");
+	for(var k=0;k<qwerty.length;k++){
+		var word = qwerty[k];
+		var keyboardRow = document.createElement("div");
+		keyboardRow.setAttribute("class","keyboardRow");
+		for(var i=0;i<word.length;i++){
+			var s = document.createElement("div");
+			s.setAttribute("class","letterBoxDiv");
+			var content = document.createElement("span");
+			content.setAttribute("class","letterBoxSpan");
+			content.innerHTML = word[i];
+			content.setAttribute("data-contents",word[i]);
+			s.appendChild(content);
+			s.appendChild(makeIndicatorBox());
+			rFormat.push([]);
+			for(var j=0;j<format.length;j++){
+				rFormat[i].push(".");
+			}
+			for(var j=0;j<format.length;j++){
+				if(format[j][alph.indexOf(word[i])]=="+"){
+					rFormat[i][j]="+";
+				}
+				if(format[j][alph.indexOf(word[i])]=="-" && rFormat[i][j]!="+"){
+					rFormat[i][j]="-";
+				}
+				if(format[j][alph.indexOf(word[i])]=="_" && rFormat[i][j]=="."){
+					rFormat[i][j]="_";
+				}
+			}
+			for(var j=0;j<format.length;j++){
+				if(rFormat[i][j]=="+"){
+					s.lastChild.appendChild(makeIndicator("correct"));
+				}
+				if(rFormat[i][j]=="-"){
+					s.lastChild.appendChild(makeIndicator("close"));
+				}
+				if(rFormat[i][j]=="_"){
+					s.lastChild.appendChild(makeIndicator("wrong"));
+				}
+			}
+			keyboardRow.appendChild(s);
 		}
-		for(var j=0;j<format.length;j++){
-			if(format[j][i]=="+"){
-				rFormat[i][j]="+";
-			}
-			if(format[j][i]=="-" && rFormat[i][j]!="+"){
-				rFormat[i][j]="-";
-			}
-			if(format[j][i]=="_" && rFormat[i][j]=="."){
-				rFormat[i][j]="_";
-			}
+		if(k==qwerty.length-1){
+			var backDiv = document.createElement("div");
+			backDiv.setAttribute("class","letterBoxDiv back");
+			var back = document.createElement("span");
+			back.setAttribute("class","letterBoxSpan back");
+			back.setAttribute("data-contents","BACK");
+			backDiv.appendChild(back);
+			var enterDiv = document.createElement("div");
+			enterDiv.setAttribute("class","letterBoxDiv enter");
+			var enter = document.createElement("span");
+			enter.setAttribute("class","letterBoxSpan enter");
+			enter.setAttribute("data-contents","ENTER");
+			enterDiv.appendChild(enter);
+			keyboardRow.insertBefore(backDiv,keyboardRow.firstChild);
+			keyboardRow.appendChild(enterDiv);
 		}
-		for(var j=0;j<format.length;j++){
-			if(rFormat[i][j]=="+"){
-				s.lastChild.appendChild(makeIndicator("correct"));
-			}
-			if(rFormat[i][j]=="-"){
-				s.lastChild.appendChild(makeIndicator("close"));
-			}
-			if(rFormat[i][j]=="_"){
-				s.lastChild.appendChild(makeIndicator("wrong"));
-			}
-		}
-		d.appendChild(s);
+		keyboard.appendChild(keyboardRow);
 	}
-	var s = document.createElement("span");
-	s.setAttribute("class","letterBox");
-	s.innerHTML = "BACK";
-	s.setAttribute("data-contents","BACK");
-	d.appendChild(s);
+	d.appendChild(keyboard);
 }
 
 var makeGuessView = function(model,divId,num){
@@ -407,18 +427,26 @@ var makeLetterView = function(model,divId){
 				box.firstChild.remove();
 			}
 			makeLetters(_id,_letterFormat);
-			for(var i=0;i<box.children.length;i++){
-				if(box.children[i].children[0]!= null && box.children[i].children[0].getAttribute("data-contents").length==1){
-					box.children[i].addEventListener("click",function(e){
-						console.log(e.target.getAttribute("data-contents"));
-						document.dispatchEvent(new KeyboardEvent('keydown',{'keyCode':e.target.getAttribute("data-contents").charCodeAt(0)}));
-					});
+			for(var i=0;i<box.children[0].children.length;i++){
+				for(var k=0;k<box.children[0].children[i].children.length;k++){
+					var letterSpan = box.children[0].children[i].children[k].children[0];
+					if(letterSpan!= null && letterSpan.getAttribute("data-contents").length==1){
+						letterSpan.addEventListener("click",function(e){
+							document.dispatchEvent(new KeyboardEvent('keydown',{'keyCode':e.target.getAttribute("data-contents").charCodeAt(0)}));
+						});
+					}
+					if(letterSpan!=null && letterSpan.getAttribute("data-contents")=="BACK"){
+						letterSpan.addEventListener("click",function(){
+							document.dispatchEvent(new KeyboardEvent('keydown',{'keyCode':8}));
+						});
+					}
+					if(letterSpan!=null && letterSpan.getAttribute("data-contents")=="ENTER"){
+						letterSpan.addEventListener("click",function(){
+							document.dispatchEvent(new KeyboardEvent('keydown',{'keyCode':13}));
+						});
+					}
 				}
 			}
-			box.children[box.children.length-1].addEventListener("click",function(){
-				console.log("back");
-				document.dispatchEvent(new KeyboardEvent('keydown',{'keyCode':8}));
-			});
 		},
 		"getIndex": function(){
 			return _index;
