@@ -2,6 +2,7 @@ let DATA = {
 	"WORDLENGTH": 5,
 	"MAXATTEMPTS": 8,
 	"ENDPOINT": "http://gurzilliancalendar.org/qordle/api",
+	"GOODCHARS": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 	"signals":{
 		"guessWord": "GUESS_WORD",
 		"EXPORT": "EXPORT",
@@ -284,43 +285,88 @@ var makeWordLine = function(word,classVal,format){
 	return d;
 }
 
+var makeIndicatorBox = function(){
+	var box = document.createElement("div");
+	box.setAttribute("class","indicators");
+	return box;
+}
+
+var makeIndicator = function(val){
+	var ind = document.createElement("div");
+	ind.setAttribute("class","indicator");
+	ind.classList.add(val);
+	return ind;
+}
+
 var makeLetters = function(divId,format){
 	var d = document.getElementById(divId);
-	var word = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	var alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	var qwerty = ["QWERTYUIOP","ASDFGHJKL","ZXCVBNM"];
+	var keyboard = document.createElement("div");
+	keyboard.setAttribute("class","keyboard");
 	rFormat = []
-	for(var i=0;i<word.length;i++){
-		var s = document.createElement("span");
-		s.setAttribute("class","letterBox");
-		s.innerHTML = word[i];
-		s.setAttribute("data-contents",word[i]);
-		rFormat.push(".");
-		for(var j=0;j<format.length;j++){
-			if(format[j][i]=="+"){
-				rFormat[i]="+";
+	let i=0;
+	for(var k=0;k<qwerty.length;k++){
+		var word = qwerty[k];
+		var keyboardRow = document.createElement("div");
+		keyboardRow.setAttribute("class","keyboardRow");
+		for(var l=0;l<word.length;l++){
+			var s = document.createElement("div");
+			s.setAttribute("class","letterBoxDiv");
+			var content = document.createElement("span");
+			content.setAttribute("class","letterBoxSpan");
+			content.innerHTML = word[l];
+			content.setAttribute("data-contents",word[l]);
+			s.appendChild(content);
+			s.appendChild(makeIndicatorBox());
+			rFormat.push([]);
+			for(var j=0;j<format.length;j++){
+				rFormat[i].push(".");
 			}
-			if(format[j][i]=="-" && rFormat[i]!="+"){
-				rFormat[i]="-";
+			for(var j=0;j<format.length;j++){
+				if(format[j][alph.indexOf(word[l])]=="+"){
+					rFormat[i][j]="+";
+				}
+				if(format[j][alph.indexOf(word[l])]=="-" && rFormat[i][j]!="+"){
+					rFormat[i][j]="-";
+				}
+				if(format[j][alph.indexOf(word[l])]=="_" && rFormat[i][j]=="."){
+					rFormat[i][j]="_";
+				}
 			}
-			if(format[j][i]=="_" && rFormat[i]=="."){
-				rFormat[i]="_";
+			for(var j=0;j<format.length;j++){
+				if(rFormat[i][j]=="+"){
+					s.lastChild.appendChild(makeIndicator("correct"));
+				}
+				if(rFormat[i][j]=="-"){
+					s.lastChild.appendChild(makeIndicator("close"));
+				}
+				if(rFormat[i][j]=="_"){
+					s.lastChild.appendChild(makeIndicator("wrong"));
+				}
 			}
+			keyboardRow.appendChild(s);
+			i++;
 		}
-		if(rFormat[i]=="+"){
-			s.classList.add("correct");
+		if(k==qwerty.length-1){
+			var backDiv = document.createElement("div");
+			backDiv.setAttribute("class","letterBoxDiv back");
+			var back = document.createElement("span");
+			back.setAttribute("class","letterBoxSpan back");
+			back.setAttribute("data-contents","BACK");
+			backDiv.appendChild(back);
+			var enterDiv = document.createElement("div");
+			enterDiv.setAttribute("class","letterBoxDiv enter");
+			var enter = document.createElement("span");
+			enter.setAttribute("class","letterBoxSpan enter");
+			enter.setAttribute("data-contents","ENTER");
+			enterDiv.appendChild(enter);
+			keyboardRow.insertBefore(enterDiv,keyboardRow.firstChild);
+			keyboardRow.appendChild(backDiv);
 		}
-		if(rFormat[i]=="-"){
-			s.classList.add("close");
-		}
-		if(rFormat[i]=="_"){
-			s.classList.add("wrong");
-		}
-		d.appendChild(s);
+		keyboard.appendChild(keyboardRow);
 	}
-	var s = document.createElement("span");
-	s.setAttribute("class","letterBox");
-	s.innerHTML = "BACK";
-	s.setAttribute("data-contents","BACK");
-	d.appendChild(s);
+	d.appendChild(keyboard);
 }
 
 var makeGuessView = function(model,divId,num){
@@ -384,18 +430,29 @@ var makeLetterView = function(model,divId){
 				box.firstChild.remove();
 			}
 			makeLetters(_id,_letterFormat);
-			for(var i=0;i<box.children.length;i++){
-				if(box.children[i].getAttribute("data-contents").length==1){
-					box.children[i].addEventListener("click",function(e){
-						console.log(e.target.getAttribute("data-contents"));
-						document.dispatchEvent(new KeyboardEvent('keydown',{'keyCode':e.target.getAttribute("data-contents").charCodeAt(0)}));
-					});
+			for(var i=0;i<box.children[0].children.length;i++){
+				for(var k=0;k<box.children[0].children[i].children.length;k++){
+					var letterSpan = box.children[0].children[i].children[k].children[0];
+					if(letterSpan!= null && letterSpan.getAttribute("data-contents").length==1){
+						letterSpan.parentElement.addEventListener("click",function(e){
+							document.dispatchEvent(new KeyboardEvent('keydown',{'key':this.children[0].getAttribute("data-contents")[0]}));
+							console.log(e.target.getAttribute("data-contents"));
+						});
+					}
+					if(letterSpan!=null && letterSpan.getAttribute("data-contents")=="BACK"){
+						letterSpan.parentElement.addEventListener("click",function(){
+							document.dispatchEvent(new KeyboardEvent('keydown',{'key':"Backspace"}));
+							console.log("backspace");
+						});
+					}
+					if(letterSpan!=null && letterSpan.getAttribute("data-contents")=="ENTER"){
+						letterSpan.parentElement.addEventListener("click",function(){
+							document.dispatchEvent(new KeyboardEvent('keydown',{'key':"Enter"}));
+							console.log("enter key");
+						});
+					}
 				}
 			}
-			box.children[box.children.length-1].addEventListener("click",function(){
-				console.log("back");
-				document.dispatchEvent(new KeyboardEvent('keydown',{'keyCode':8}));
-			});
 		},
 		"getIndex": function(){
 			return _index;
@@ -534,27 +591,15 @@ document.addEventListener("DOMContentLoaded", async function(event) {
 	model.register(letters.render);
 //hmm
 	document.onkeydown = function(evt) {
-		console.log("key: "+evt.keyCode);
+		console.log("key: "+evt.key);
 		evt = evt || window.event;
-		if (evt.keyCode >= 65 && evt.keyCode <= 90) {
-			guess1.addLetter(String.fromCharCode(evt.keyCode));
-			guess2.addLetter(String.fromCharCode(evt.keyCode));
-			guess3.addLetter(String.fromCharCode(evt.keyCode));
-			guess4.addLetter(String.fromCharCode(evt.keyCode));
-		}
-		if (evt.keyCode >= 97 && evt.keyCode <= 122) {
-			guess1.addLetter(String.fromCharCode(evt.keyCode-32));
-			guess2.addLetter(String.fromCharCode(evt.keyCode-32));
-			guess3.addLetter(String.fromCharCode(evt.keyCode-32));
-			guess4.addLetter(String.fromCharCode(evt.keyCode-32));
-		}
-		if (evt.keyCode == 8) {
+		var newChar = evt.key.toUpperCase();
+		if (newChar=="BACKSPACE"){
 			guess1.removeLetter();
 			guess2.removeLetter();
 			guess3.removeLetter();
 			guess4.removeLetter();
-		}
-		if (evt.keyCode == 13) {
+		} else if(newChar=="ENTER"){
 			var guess = guess1.getLetters();
 			guess1.clearLetters();
 			guess2.clearLetters();
@@ -564,6 +609,11 @@ document.addEventListener("DOMContentLoaded", async function(event) {
 				"type": DATA.signals.guessWord,
 				"word": guess
 			});
+		} else if(newChar.length==1 && DATA.GOODCHARS.indexOf(newChar)!=-1){
+			guess1.addLetter(newChar);
+			guess2.addLetter(newChar);
+			guess3.addLetter(newChar);
+			guess4.addLetter(newChar);
 		}
 	};
 });
