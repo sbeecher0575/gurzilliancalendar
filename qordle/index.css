@@ -187,3 +187,11 @@ span.letterBoxSpan.back {
 .keyboardRow > .letterBoxDiv:first-child ~ .letterBoxDiv {
     margin-left: 10px;
 }
+
+.letterBox, .letterBoxSpan {
+    cursor: default;
+}
+
+.letterBoxDiv, .letterBoxDiv * {
+    cursor: pointer;
+}

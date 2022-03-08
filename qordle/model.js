@@ -305,17 +305,18 @@ var makeLetters = function(divId,format){
 	var keyboard = document.createElement("div");
 	keyboard.setAttribute("class","keyboard");
 	rFormat = []
+	let i=0;
 	for(var k=0;k<qwerty.length;k++){
 		var word = qwerty[k];
 		var keyboardRow = document.createElement("div");
 		keyboardRow.setAttribute("class","keyboardRow");
-		for(var i=0;i<word.length;i++){
+		for(var l=0;l<word.length;l++){
 			var s = document.createElement("div");
 			s.setAttribute("class","letterBoxDiv");
 			var content = document.createElement("span");
 			content.setAttribute("class","letterBoxSpan");
-			content.innerHTML = word[i];
-			content.setAttribute("data-contents",word[i]);
+			content.innerHTML = word[l];
+			content.setAttribute("data-contents",word[l]);
 			s.appendChild(content);
 			s.appendChild(makeIndicatorBox());
 			rFormat.push([]);
@@ -323,13 +324,13 @@ var makeLetters = function(divId,format){
 				rFormat[i].push(".");
 			}
 			for(var j=0;j<format.length;j++){
-				if(format[j][alph.indexOf(word[i])]=="+"){
+				if(format[j][alph.indexOf(word[l])]=="+"){
 					rFormat[i][j]="+";
 				}
-				if(format[j][alph.indexOf(word[i])]=="-" && rFormat[i][j]!="+"){
+				if(format[j][alph.indexOf(word[l])]=="-" && rFormat[i][j]!="+"){
 					rFormat[i][j]="-";
 				}
-				if(format[j][alph.indexOf(word[i])]=="_" && rFormat[i][j]=="."){
+				if(format[j][alph.indexOf(word[l])]=="_" && rFormat[i][j]=="."){
 					rFormat[i][j]="_";
 				}
 			}
@@ -345,6 +346,7 @@ var makeLetters = function(divId,format){
 				}
 			}
 			keyboardRow.appendChild(s);
+			i++;
 		}
 		if(k==qwerty.length-1){
 			var backDiv = document.createElement("div");
@@ -432,8 +434,8 @@ var makeLetterView = function(model,divId){
 				for(var k=0;k<box.children[0].children[i].children.length;k++){
 					var letterSpan = box.children[0].children[i].children[k].children[0];
 					if(letterSpan!= null && letterSpan.getAttribute("data-contents").length==1){
-						letterSpan.addEventListener("click",function(e){
-							document.dispatchEvent(new KeyboardEvent('keydown',{'key':e.target.getAttribute("data-contents")[0]}));
+						letterSpan.parentElement.addEventListener("click",function(e){
+							document.dispatchEvent(new KeyboardEvent('keydown',{'key':this.children[0].getAttribute("data-contents")[0]}));
 							console.log(e.target.getAttribute("data-contents"));
 						});
 					}
