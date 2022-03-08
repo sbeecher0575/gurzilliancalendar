@@ -2,6 +2,7 @@ let DATA = {
 	"WORDLENGTH": 5,
 	"MAXATTEMPTS": 8,
 	"ENDPOINT": "http://gurzilliancalendar.org/qordle/api",
+	"GOODCHARS": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 	"signals":{
 		"guessWord": "GUESS_WORD",
 		"EXPORT": "EXPORT",
@@ -358,8 +359,8 @@ var makeLetters = function(divId,format){
 			enter.setAttribute("class","letterBoxSpan enter");
 			enter.setAttribute("data-contents","ENTER");
 			enterDiv.appendChild(enter);
-			keyboardRow.insertBefore(backDiv,keyboardRow.firstChild);
-			keyboardRow.appendChild(enterDiv);
+			keyboardRow.insertBefore(enterDiv,keyboardRow.firstChild);
+			keyboardRow.appendChild(backDiv);
 		}
 		keyboard.appendChild(keyboardRow);
 	}
@@ -432,17 +433,20 @@ var makeLetterView = function(model,divId){
 					var letterSpan = box.children[0].children[i].children[k].children[0];
 					if(letterSpan!= null && letterSpan.getAttribute("data-contents").length==1){
 						letterSpan.addEventListener("click",function(e){
-							document.dispatchEvent(new KeyboardEvent('keydown',{'keyCode':e.target.getAttribute("data-contents").charCodeAt(0)}));
+							document.dispatchEvent(new KeyboardEvent('keydown',{'key':e.target.getAttribute("data-contents")[0]}));
+							console.log(e.target.getAttribute("data-contents"));
 						});
 					}
 					if(letterSpan!=null && letterSpan.getAttribute("data-contents")=="BACK"){
-						letterSpan.addEventListener("click",function(){
-							document.dispatchEvent(new KeyboardEvent('keydown',{'keyCode':8}));
+						letterSpan.parentElement.addEventListener("click",function(){
+							document.dispatchEvent(new KeyboardEvent('keydown',{'key':"Backspace"}));
+							console.log("backspace");
 						});
 					}
 					if(letterSpan!=null && letterSpan.getAttribute("data-contents")=="ENTER"){
-						letterSpan.addEventListener("click",function(){
-							document.dispatchEvent(new KeyboardEvent('keydown',{'keyCode':13}));
+						letterSpan.parentElement.addEventListener("click",function(){
+							document.dispatchEvent(new KeyboardEvent('keydown',{'key':"Enter"}));
+							console.log("enter key");
 						});
 					}
 				}
@@ -585,27 +589,15 @@ document.addEventListener("DOMContentLoaded", async function(event) {
 	model.register(letters.render);
 //hmm
 	document.onkeydown = function(evt) {
-		console.log("key: "+evt.keyCode);
+		console.log("key: "+evt.key);
 		evt = evt || window.event;
-		if (evt.keyCode >= 65 && evt.keyCode <= 90) {
-			guess1.addLetter(String.fromCharCode(evt.keyCode));
-			guess2.addLetter(String.fromCharCode(evt.keyCode));
-			guess3.addLetter(String.fromCharCode(evt.keyCode));
-			guess4.addLetter(String.fromCharCode(evt.keyCode));
-		}
-		if (evt.keyCode >= 97 && evt.keyCode <= 122) {
-			guess1.addLetter(String.fromCharCode(evt.keyCode-32));
-			guess2.addLetter(String.fromCharCode(evt.keyCode-32));
-			guess3.addLetter(String.fromCharCode(evt.keyCode-32));
-			guess4.addLetter(String.fromCharCode(evt.keyCode-32));
-		}
-		if (evt.keyCode == 8) {
+		var newChar = evt.key.toUpperCase();
+		if (newChar=="BACKSPACE"){
 			guess1.removeLetter();
 			guess2.removeLetter();
 			guess3.removeLetter();
 			guess4.removeLetter();
-		}
-		if (evt.keyCode == 13) {
+		} else if(newChar=="ENTER"){
 			var guess = guess1.getLetters();
 			guess1.clearLetters();
 			guess2.clearLetters();
@@ -615,6 +607,11 @@ document.addEventListener("DOMContentLoaded", async function(event) {
 				"type": DATA.signals.guessWord,
 				"word": guess
 			});
+		} else if(newChar.length==1 && DATA.GOODCHARS.indexOf(newChar)!=-1){
+			guess1.addLetter(newChar);
+			guess2.addLetter(newChar);
+			guess3.addLetter(newChar);
+			guess4.addLetter(newChar);
 		}
 	};
 });
