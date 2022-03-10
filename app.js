@@ -1,4 +1,5 @@
 const express = require('express')
+const exec = require('child_process')
 const fs = require('fs')
 const util = require('./wordUtil.js')
 util.initLists();
@@ -41,6 +42,17 @@ app.get('/qordle',(req,res)=>{
 			res.end(err.message);
 		}
 	});
+})
+
+app.use(express.static(__dirname + '/'));
+app.get('/pull',(req,res)=>{
+	res.setHeader('Access-Control-Allow-Origin','*')
+	fs.readFile('key.txt', 'utf8', (err,data) => {
+		if(data.trim()==req.query.pass){
+			//run bash file pullAndReset.sh
+			exec.execFileSync("pullAndReset.sh")
+		}
+	})
 })
 
 
