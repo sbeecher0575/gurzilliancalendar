@@ -117,8 +117,8 @@ span.letterBoxSpan {
 
 .letterBoxDiv {
     border: 2px solid white;
-    width: 9vw;
-    height: 9vw;
+    width: 8vw;
+    height: 8vw;
     position: relative;
     display: inline-block;
 }
@@ -165,8 +165,8 @@ span.letterBoxSpan.back {
 }
 
 .letterBoxDiv.back, .letterBoxDiv.enter {
-    width: 13.5vw;
-    height: 9vw;
+    width: 12vw;
+    height: 8vw;
     background-repeat: no-repeat;
     background-size: 120px;
     background-position: center;
