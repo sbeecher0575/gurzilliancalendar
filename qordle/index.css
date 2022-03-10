@@ -52,7 +52,7 @@ body{
 .letterBox{
 	border: solid 2px white;
 	font-family: monospace;
-	font-size: inherit;
+	font-size: 4vw;
 	color: white;
 	width: 4vw;
 	height: min-content;
@@ -103,7 +103,7 @@ body{
 }
 
 span.letterBoxSpan {
-    font-size: 100px;
+    font-size: 8vw;
     color: white;
     font-family: monospace;
     width: min-content;
@@ -168,7 +168,7 @@ span.letterBoxSpan.back {
     width: 12vw;
     height: 8vw;
     background-repeat: no-repeat;
-    background-size: 120px;
+    background-size: 8vw;
     background-position: center;
 }
 
