@@ -1,3 +1,3 @@
 #!/bin/bash
 git pull origin
-pm2 reset all
+#pm2 reset all
