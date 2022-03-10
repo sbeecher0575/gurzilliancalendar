@@ -54,7 +54,7 @@ body{
 	font-family: monospace;
 	font-size: inherit;
 	color: white;
-	width: min-content;
+	width: 4vw;
 	height: min-content;
 }
 
@@ -117,8 +117,8 @@ span.letterBoxSpan {
 
 .letterBoxDiv {
     border: 2px solid white;
-    width: 100px;
-    height: 100px;
+    width: 9vw;
+    height: 9vw;
     position: relative;
     display: inline-block;
 }
@@ -154,7 +154,7 @@ span.letterBoxSpan {
 
 .keyboardRow {
     width: max-content;
-    height: 100px;
+    height: 9vw;
     margin-left: auto;
     margin-right: auto;
 }
@@ -165,8 +165,8 @@ span.letterBoxSpan.back {
 }
 
 .letterBoxDiv.back, .letterBoxDiv.enter {
-    width: 150px;
-    height: 100px;
+    width: 13.5vw;
+    height: 9vw;
     background-repeat: no-repeat;
     background-size: 120px;
     background-position: center;
