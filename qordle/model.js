@@ -6,7 +6,8 @@ let DATA = {
 	"signals":{
 		"guessWord": "GUESS_WORD",
 		"EXPORT": "EXPORT",
-		"restart": "RESTART"
+		"restart": "RESTART",
+		"changeShareSettings": "CHANGESHARE"
 	}
 }
 var makeSignaller = function() {
@@ -30,6 +31,10 @@ var makeModel = function(){
 	var _observers = makeSignaller();
 	var _canLose = false;
 	var _recentError = "";
+	var _sharing = false;
+	_numberShare = false;
+	_wordShare = false;
+	_shrinkShare = false;
 	for(var i=0;i<4;i++){
 		for(var j=0;j<26;j++){
 			_letters[i].push('.');
@@ -153,8 +158,26 @@ var makeModel = function(){
 				.then(response=>response.json())
 				.then(jval=>{_correctAnswers = jval; console.log(jval);});
 		},
+		
+		"isCorrect": function(guess){
+			for(var i=0;i<_accuracy[guess].length;i++){
+				var isC = true;
+				for(var j=0;j<DATA.WORDLENGTH;j++){
+					if(_accuracy[guess][i][j]!='+'){
+						isC = false;
+					}
+				}
+				if(isC){
+					return true;
+				}
+			}
+			return false;
+		},
 
 		"resetData": function(){
+			_numberShare = false;
+			_wordShare = false;
+			_shrinkShare = false;
 			_attempts = [];
 			_recentError = "";
 			_attemptsLeft = DATA.MAXATTEMPTS;
@@ -162,6 +185,7 @@ var makeModel = function(){
 			_correctAnswers = [];
 			_hasGuessed = [0,0,0,0];
 			_letters = [[],[],[],[]];
+			_sharing = false;
 			for(var i=0;i<4;i++){
 				for(var j=0;j<26;j++){
 					_letters[i].push('.');
@@ -171,13 +195,20 @@ var makeModel = function(){
 			_observers.notify();
 		},
 		
+		"getSharing": function(){
+			return _sharing;
+		},
+		
 		"getShare": function(){
-			var GB = ":green_square:"
-			var BB = ":black_large_square:"
-			var YB = ":purple_square:"
+			var GB = "&#x1F7E9;"
+			var BB = "&#x2B1B;"
+			var YB = "&#x1F7EA;"
 			
 			var ret = "Qordle in "+_numAttempts+"\n";
 			for(var i=0;i<_attempts.length;i++){
+				if(_shrinkShare && _numAttempts>=10 && !this.isCorrect(i)){
+					continue;
+				}
 				for(var j=0;j<_accuracy[i].length;j++){
 					for(var k=0;k<_accuracy[i][j].length;k++){
 						if(_accuracy[i][j][k]=="+"){
@@ -190,10 +221,15 @@ var makeModel = function(){
 					}
 					ret+=" "
 				}
-				ret+=" ||`"+_attempts[i]+"`||\n"
+				if(_wordShare){
+					ret+=_attempts[i]
+				}
+				if(_numberShare){
+					ret+=": "+(i+1).toString();
+				}
+				ret+="\n";
 			}
-			ret+="\nQordle: http://ec2-44-201-200-247.compute-1.amazonaws.com:3000/index";
-			console.log(ret);
+			ret+="Qordle: http://gurzilliancalendar.org/qordle";
 			return ret;
 		},
 
@@ -203,7 +239,14 @@ var makeModel = function(){
 		},
 		
 		"setShareText": function(){
-			_recentError = "This button is currently under development.\nTry taking a screenshot :)";
+			_sharing = true;
+			_observers.notify();
+		},
+		
+		"setShareSettings": function(shrink, word, number){
+			_shrinkShare = shrink;
+			_wordShare = word;
+			_numberShare = number;
 			_observers.notify();
 		},
 		
@@ -255,6 +298,9 @@ var makeController = function(model){
 				case (DATA.signals.EXPORT):
 					//_model.setCopied();
 					_model.setShareText();
+					break;
+				case (DATA.signals.changeShareSettings):
+					_model.setShareSettings(evt.shrink,evt.word,evt.number);
 					break;
 				default:
 					console.log("Unrecognized event", evt);
@@ -470,8 +516,6 @@ var makeExportButton = function(model,divId){
 	_btn.setAttribute("value","Share");
 	_btn.setAttribute("class","dis");
 	var _shareFunc = function(){
-		var s = _model.getShare();
-		navigator.clipboard.writeText(s);
 		_observers.notify({
 			"type": DATA.signals.EXPORT
 		});
@@ -520,6 +564,7 @@ var makeGuessButton = function(model,divId,g1,g2,g3,g4){
 		});
 	}
 	_btn.addEventListener("click", _guessFunc);
+	_btn.classList.add("disabled");
 	document.getElementById(divId).appendChild(_btn);
 	return {
 		"register": function(observer_function){
@@ -527,10 +572,12 @@ var makeGuessButton = function(model,divId,g1,g2,g3,g4){
 		},
 		"render": function(){
 			if(_model.hasWon()!=0){
+				_btn.classList.remove("disabled");
 				_btn.setAttribute("value","Play Again");
 				_btn.removeEventListener("click",_guessFunc);
 				_btn.addEventListener("click",_restartFunc);
 			} else {
+				_btn.classList.add("disabled");
 				_btn.setAttribute("value","Guess");
 				_btn.removeEventListener("click",_restartFunc);
 				_btn.addEventListener("click",_guessFunc);
@@ -552,6 +599,71 @@ var makeErrorBox = function(model,divId){
 	}
 }
 
+var makeShareView = function(model,divId){
+	var _model = model;
+	var _id = divId;
+	var _observers = makeSignaller();
+	var _box = document.getElementById(_id);
+	var checkFunction = function(evt){
+		_observers.notify({
+			"type": DATA.signals.changeShareSettings,
+			"shrink": evt.currentTarget.parentElement.children[0].checked,
+			"word": evt.currentTarget.parentElement.children[2].checked,
+			"number": evt.currentTarget.parentElement.children[4].checked
+		});
+	}
+	var _shrinkCheck = document.createElement("input");
+	_shrinkCheck.setAttribute("type","checkbox");
+	_shrinkCheck.setAttribute("id","shrinkCheck");
+	_shrinkCheck.classList.add("shareCheckBox");
+	_shrinkCheck.addEventListener("change",checkFunction);
+	var _shrinkLabel = document.createElement("label");
+	_shrinkLabel.setAttribute("for","shrinkCheck");
+	_shrinkLabel.innerHTML = "Shrink";
+	var _wordCheck = document.createElement("input");
+	_wordCheck.setAttribute("type","checkbox");
+	_wordCheck.setAttribute("id","wordCheck");
+	_wordCheck.classList.add("shareCheckBox");
+	_wordCheck.addEventListener("change",checkFunction);
+	var _wordLabel = document.createElement("label");
+	_wordLabel.setAttribute("for","wordCheck");
+	_wordLabel.innerHTML = "Show Words";
+	var _numberCheck = document.createElement("input");
+	_numberCheck.setAttribute("type","checkbox");
+	_numberCheck.setAttribute("id","numberCheck");
+	_numberCheck.classList.add("shareCheckBox");
+	_numberCheck.addEventListener("change",checkFunction);
+	var _numberLabel = document.createElement("label");
+	_numberLabel.setAttribute("for","numberCheck");
+	_numberLabel.innerHTML = "Show Numbers";
+	_box.appendChild(_shrinkCheck);
+	_box.appendChild(_shrinkLabel);
+	_box.appendChild(_wordCheck);
+	_box.appendChild(_wordLabel);
+	_box.appendChild(_numberCheck);
+	_box.appendChild(_numberLabel);
+	_box.appendChild(document.createElement("span"));
+	return {
+		"register": function(observer_function){
+			_observers.add(observer_function);
+		},
+		
+		"render": function(){
+			if(_model.getSharing()){
+				_box.classList.remove("disabled");
+			}
+			else{
+				_box.classList.add("disabled");
+			}
+			_box.lastChild.remove();
+			var s = document.createElement("span");
+			s.setAttribute("id","shareBoxSpan");
+			s.innerHTML = _model.getShare();
+			_box.appendChild(s);
+		}
+	}
+}
+
 document.addEventListener("DOMContentLoaded", async function(event) {
 	var model = makeModel();
 	var controller = makeController(model);
@@ -560,6 +672,10 @@ document.addEventListener("DOMContentLoaded", async function(event) {
 	var guess2 = makeGuessView(model,"guess2",1);
 	var guess3 = makeGuessView(model,"guess3",2);
 	var guess4 = makeGuessView(model,"guess4",3);
+	
+	var shareBox = makeShareView(model,"shareBox");
+	
+	shareBox.render();
 
 	guess1.render();
 	guess2.render();
@@ -575,11 +691,15 @@ document.addEventListener("DOMContentLoaded", async function(event) {
 
 	var Ebox = makeErrorBox(model,"errBox");
 
+	shareBox.register(controller.dispatch);
+
 	btn.register(controller.dispatch);
 	btn2.register(controller.dispatch);
 
 	model.register(btn.render);
 	model.register(btn2.render);
+
+	model.register(shareBox.render);
 
 	model.register(Ebox.render);
 

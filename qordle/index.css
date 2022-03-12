@@ -2,6 +2,7 @@
 	vertical-align: top;
 	margin:0px;
 	padding:0px;
+	box-sizing: border-box;
 }
 html{
 	background-color: black;
@@ -10,7 +11,7 @@ body{
 	background-color: black;
 }
 #guessContainer{
-	width:100%;
+	width: 95%;
 	height:50%;
 	text-align: center;
 	display: flex;
@@ -19,7 +20,8 @@ body{
 	justify-content: space-evenly;
 	align-items: center;
 	align-content: center;
-	margin: 10px;
+	margin: auto;
+	margin-bottom: 10px;
 }
 
 .guesses{
@@ -92,9 +94,9 @@ body{
 #errBox {
 	color: white;
 	text-align: center;
-	width: 100%;
-	font-size: 50pt;
-	margin-top:20px;
+	width: 95%;
+	font-size: 2vw;
+	margin-top: 20px;
 }
 
 #btnDiv {
@@ -194,4 +196,46 @@ span.letterBoxSpan.back {
 
 .letterBoxDiv, .letterBoxDiv * {
     cursor: pointer;
+}
+
+.disabled {
+	display: none !important;
+}
+
+span#shareBoxSpan {
+    background-color: black;
+    color: white;
+    font-size: 2vw;
+    width: 100%;
+    text-align: left;
+    height: 100%;
+    white-space: pre-wrap;
+    display: block;
+    font-family: monospace;
+}
+
+div#shareBox {
+    margin-left: 50%;
+    transform: translate(-50%,0%);
+    min-width: 50%;
+    border: 2px solid white;
+    padding: 5px;
+    margin-bottom: 50px;
+    width: max-content;
+    margin-top: 15px;
+}
+
+.break-word {
+    word-wrap: break-word;
+}
+
+#shareBox label {
+    color: white;
+    vertical-align: middle;
+    margin-left: 5px;
+    margin-right: 10px;
+}
+
+.shareCheckBox {
+    vertical-align: middle;
 }
