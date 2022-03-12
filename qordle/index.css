@@ -70,12 +70,21 @@ body{
 
 #submitButton, #exportButton{
 	width: 30%;
-	margin: 50px auto auto auto;
-	font-size: 35pt;
+	margin-top: 50px;
+	margin-bottom: auto;
+	font-size: 5vw;
 	background-color: black;
 	border: solid 2px white;
 	border-radius: 15px;
 	color: white;
+}
+
+#exportButton {
+	margin-left: 10px;
+}
+
+#submitButton {
+	margin-right: 10px;
 }
 
 #exportButton.dis{
@@ -209,9 +218,11 @@ span#shareBoxSpan {
     width: 100%;
     text-align: left;
     height: 100%;
-    white-space: pre-wrap;
+    white-space: pre;
     display: block;
     font-family: monospace;
+	overflow-wrap: normal;
+	
 }
 
 div#shareBox {
@@ -222,7 +233,10 @@ div#shareBox {
     padding: 5px;
     margin-bottom: 50px;
     width: max-content;
-    margin-top: 15px;
+    margin-top: 50px;
+	overflow-wrap: normal;
+	white-space: nowrap;
+	font-size: 3vw;
 }
 
 .break-word {
@@ -237,5 +251,8 @@ div#shareBox {
 }
 
 .shareCheckBox {
+	height: 2vw;
+	border: solid 2px white;
+	width: 2vw;
     vertical-align: middle;
 }

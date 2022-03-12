@@ -206,7 +206,7 @@ var makeModel = function(){
 			
 			var ret = "Qordle in "+_numAttempts+"\n";
 			for(var i=0;i<_attempts.length;i++){
-				if(_shrinkShare && _numAttempts>=10 && !this.isCorrect(i)){
+				if(_shrinkShare && !this.isCorrect(i)){
 					continue;
 				}
 				for(var j=0;j<_accuracy[i].length;j++){
