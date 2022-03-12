@@ -298,6 +298,8 @@ var makeController = function(model){
 				case (DATA.signals.EXPORT):
 					//_model.setCopied();
 					_model.setShareText();
+					const scrolling = (document.scrollingElement || document.body);
+					scrolling.scrollTop = scrolling.scrollHeight;
 					break;
 				case (DATA.signals.changeShareSettings):
 					_model.setShareSettings(evt.shrink,evt.word,evt.number);
