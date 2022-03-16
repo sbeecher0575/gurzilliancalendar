@@ -256,3 +256,24 @@ div#shareBox {
 	width: 2vw;
     vertical-align: middle;
 }
+
+div#modeToggle {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+input.modeButton {
+    background-color: black;
+    color: white;
+    font-family: monospace;
+    border: 2px solid white;
+    padding: 10px;
+    font-size: 5vw;
+    margin: 10px;
+}
+
+input.modeButton:hover {
+    background-color: #444444;
+}
