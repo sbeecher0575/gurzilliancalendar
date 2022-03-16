@@ -175,11 +175,6 @@ var makeModel = function(){
 				.then(jval=>{_correctAnswers = jval; console.log(jval);});
 		},
 		
-		"setMode": function(newMode){
-			this.resetData(newMode);
-			_observers.notify();
-		},
-		
 		"getMode": function(){
 			return _mode;
 		},
@@ -335,7 +330,8 @@ var makeController = function(model){
 					_model.setShareSettings(evt.shrink,evt.word,evt.number);
 					break;
 				case (DATA.signals.changeMode):
-					_model.setMode(evt.mode);
+					_model.resetData(evt.mode);
+					await _model.setAnswerWords();
 					break;
 				default:
 					console.log("Unrecognized event", evt);
