@@ -1,4 +1,5 @@
 const fs = require('fs')
+const seedrandom = require('seedrandom');
 let DATA = {
 	"WORDLENGTH": 5,
 	"MAXATTEMPTS": 8
@@ -32,12 +33,16 @@ function initAnswerWords(){
 	});
 }
 
-function getRandomWords(count,wordList){
+function getRandomWords(count,wordList,seed){
+	var rand = seedrandom();
+	if(seed!=null){
+		rand = seedrandom(seed);
+	}
 	let returnList = []
 	while(returnList.length<count){
-		let randomWord = wordList[~~(wordList.length*Math.random())];
+		let randomWord = wordList[~~(wordList.length*rand())];
 		while(returnList.includes(randomWord)){
-			randomWord = wordList[~~(wordList.length*Math.random())];
+			randomWord = wordList[~~(wordList.length*rand())];
 		}
 		returnList.push(randomWord);
 	}
@@ -68,8 +73,8 @@ module.exports = {
 		return isValid(word,this.GUESSWORDS);
 	},
 	
-	"getRandomWords": function(count){
-		return getRandomWords(count,this.ANSWERWORDS);
+	"getRandomWords": function(count,seed){
+		return getRandomWords(count,this.ANSWERWORDS,seed);
 	},
 	
 	"initAW": function(){

@@ -22,7 +22,12 @@ app.get('/qordle/api', (req, res) => {
 	res.setHeader('Access-Control-Allow-Origin','*')
 	if(req.query.ask=="request"){
 		debugger
-		var randVals = util.getRandomWords(req.query.count)
+		var randVals;
+		if(!req.query.seed){
+			randVals = util.getRandomWords(req.query.count,null);
+		} else {
+			randVals = util.getRandomWords(req.query.count,req.query.seed);
+		}
 		console.log(randVals)
 		res.send(randVals)
 	} else if(req.query.ask=="check"){
