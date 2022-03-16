@@ -163,7 +163,8 @@ var makeModel = function(){
 			if(_mode==DATA.modes.random){
 				return fetch(new Request(DATA.ENDPOINT+"?ask=request&count="+num))
 			} else if(_mode==DATA.modes.daily){
-				return fetch(new Request(DATA.ENDPOINT+"?ask=request&count="+num+"&seed="+(getDateString(new Date()))))
+				console.log(DATA.ENDPOINT+"?ask=request&count="+num+"&seed="+num+":"+(getDateString(new Date())));
+				return fetch(new Request(DATA.ENDPOINT+"?ask=request&count="+num+"&seed="+num+":"+(getDateString(new Date()))))
 			} else {
 				return fetch(new Request(DATA.ENDPOINT+"?ask=request&count="+num))
 			}
