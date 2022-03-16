@@ -164,6 +164,8 @@ var makeModel = function(){
 				return fetch(new Request(DATA.ENDPOINT+"?ask=request&count="+num))
 			} else if(_mode==DATA.modes.daily){
 				return fetch(new Request(DATA.ENDPOINT+"?ask=request&count="+num+"&seed="+(getDateString(new Date()))))
+			} else {
+				return fetch(new Request(DATA.ENDPOINT+"?ask=request&count="+num))
 			}
 		},
 
@@ -174,8 +176,7 @@ var makeModel = function(){
 		},
 		
 		"setMode": function(newMode){
-			this.resetData();
-			_mode = newMode;
+			this.resetData(newMode);
 			_observers.notify();
 		},
 		
@@ -198,7 +199,7 @@ var makeModel = function(){
 			return false;
 		},
 
-		"resetData": function(){
+		"resetData": function(mode){
 			_numberShare = false;
 			_wordShare = false;
 			_shrinkShare = false;
@@ -210,7 +211,11 @@ var makeModel = function(){
 			_hasGuessed = [0,0,0,0];
 			_letters = [[],[],[],[]];
 			_sharing = false;
-			_mode = DATA.modes.modeSelect
+			if(mode){
+				_mode = mode
+			} else {
+				_mode = DATA.modes.modeSelect
+			}
 			for(var i=0;i<4;i++){
 				for(var j=0;j<26;j++){
 					_letters[i].push('.');
@@ -317,7 +322,7 @@ var makeController = function(model){
 					_model.guess(evt.word);
 					break;
 				case (DATA.signals.restart):
-					_model.resetData();
+					_model.resetData(DATA.modes.random);
 					await _model.setAnswerWords();
 					break;
 				case (DATA.signals.EXPORT):
