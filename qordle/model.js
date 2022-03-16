@@ -229,6 +229,7 @@ var makeModel = function(){
 			var GB = "&#x1F7E9;"
 			var BB = "&#x2B1B;"
 			var YB = "&#x1F7EA;"
+			var ret = ""
 			if(_mode==DATA.modes.daily){
 				ret+="Daily ";
 			} else if(_mode==DATA.modes.random){
@@ -236,7 +237,7 @@ var makeModel = function(){
 			} else {
 				ret+=""
 			}
-			var ret = "Qordle in "+_numAttempts+"\n";
+			ret += "Qordle in "+_numAttempts+"\n";
 			for(var i=0;i<_attempts.length;i++){
 				if(_shrinkShare && !this.isCorrect(i)){
 					continue;
