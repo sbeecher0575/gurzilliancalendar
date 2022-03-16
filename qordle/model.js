@@ -644,7 +644,7 @@ var makeErrorBox = function(model,divId){
 	var _container = document.getElementById(divId);
 	var _text = document.createElement("span");
 	_text.innerHTML = _model.getError();
-	_container.appendChild(_box);
+	_container.appendChild(_text);
 	return {
 		"render": function(){
 			if(_model.getMode()==DATA.modes.modeSelect){
