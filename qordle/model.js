@@ -7,8 +7,17 @@ let DATA = {
 		"guessWord": "GUESS_WORD",
 		"EXPORT": "EXPORT",
 		"restart": "RESTART",
-		"changeShareSettings": "CHANGESHARE"
+		"changeShareSettings": "CHANGESHARE",
+		"changeMode": "CHANGEMODE"
+	},
+	"modes":{
+		"daily": "DAILY",
+		"random": "RANDOM",
+		"modeSelect": "MODESELECT"
 	}
+}
+var getDateString = function(d){
+	return ""+d.getUTCDate()+":"+d.getMonth()+":"+d.getUTCFullYear()+"-"+d.getUTCFullYear()+":"+d.getMonth()+":"+d.getUTCDate()+""
 }
 var makeSignaller = function() {
     var _subscribers = [];
@@ -32,6 +41,7 @@ var makeModel = function(){
 	var _canLose = false;
 	var _recentError = "";
 	var _sharing = false;
+	var _mode = "";
 	_numberShare = false;
 	_wordShare = false;
 	_shrinkShare = false;
@@ -150,13 +160,27 @@ var makeModel = function(){
 		},
 
 		"getRandomWord": async function(num){
-			return fetch(new Request(DATA.ENDPOINT+"?ask=request&count="+num))
+			if(_mode==DATA.modes.random){
+				return fetch(new Request(DATA.ENDPOINT+"?ask=request&count="+num))
+			} else if(_mode==DATA.modes.daily){
+				return fetch(new Request(DATA.ENDPOINT+"?ask=request&count="+num+"&seed="+(getDateString(new Date()))))
+			}
 		},
 
 		"setAnswerWords": async function(){
 			await this.getRandomWord(4)
 				.then(response=>response.json())
 				.then(jval=>{_correctAnswers = jval; console.log(jval);});
+		},
+		
+		"setMode": function(newMode){
+			this.resetData();
+			_mode = newMode;
+			_observers.notify();
+		},
+		
+		"getMode": function(){
+			return _mode;
 		},
 		
 		"isCorrect": function(guess){
@@ -186,6 +210,7 @@ var makeModel = function(){
 			_hasGuessed = [0,0,0,0];
 			_letters = [[],[],[],[]];
 			_sharing = false;
+			_mode = DATA.modes.modeSelect
 			for(var i=0;i<4;i++){
 				for(var j=0;j<26;j++){
 					_letters[i].push('.');
@@ -304,6 +329,9 @@ var makeController = function(model){
 				case (DATA.signals.changeShareSettings):
 					_model.setShareSettings(evt.shrink,evt.word,evt.number);
 					break;
+				case (DATA.signals.changeMode):
+					_model.setMode(evt.mode);
+					break;
 				default:
 					console.log("Unrecognized event", evt);
 					break;
@@ -419,6 +447,7 @@ var makeLetters = function(divId,format){
 
 var makeGuessView = function(model,divId,num){
 	var _model = model;
+	var _box = document.getElementById(divId);
 	var _attempts = model.getAttempts();
 	var _observers = makeSignaller();
 	var _index = num;
@@ -430,17 +459,21 @@ var makeGuessView = function(model,divId,num){
 			_observers.add(observer_function);
 		},
 		"render": function(){
+			if(_model.getMode()==DATA.modes.modeSelect){
+				_box.classList.add("disabled");
+			} else {
+				_box.classList.remove("disabled");
+			}
 			_attempts = model.getAttempts();
 			_accuracy = model.getAccuracy();
-			var box = document.getElementById(_id);
-			while(box.firstChild){
-				box.firstChild.remove();
+			while(_box.firstChild){
+				_box.firstChild.remove();
 			}
 			for(var i=0;i<_attempts.length;i++){
-				box.appendChild(makeWordLine(_attempts[i],"guessLine",_accuracy[i][_index]));
+				_box.appendChild(makeWordLine(_attempts[i],"guessLine",_accuracy[i][_index]));
 			}
 			if(_model.hasWon()==0){
-				box.appendChild(makeWordLine(_lettersTyped.padEnd(5,"_"),"guessLine","....."));
+				_box.appendChild(makeWordLine(_lettersTyped.padEnd(5,"_"),"guessLine","....."));
 			}
 		},
 		"addLetter": function(l){
@@ -466,21 +499,26 @@ var makeLetterView = function(model,divId){
 	var _model = model;
 	var _observers = makeSignaller();
 	var _id = divId;
+	var _container = document.getElementById(divId);
 	var _letterFormat = model.getLetters();
 	return{
 		"register": function(observer_function){
 			_observers.add(observer_function);
 		},
 		"render": function(){
+			if(_model.getMode()==DATA.modes.modeSelect){
+				_container.classList.add("disabled");
+			} else {
+				_container.classList.remove("disabled");
+			}
 			_letterFormat = _model.getLetters();
-			var box = document.getElementById(_id);
-			while(box.firstChild){
-				box.firstChild.remove();
+			while(_container.firstChild){
+				_container.firstChild.remove();
 			}
 			makeLetters(_id,_letterFormat);
-			for(var i=0;i<box.children[0].children.length;i++){
-				for(var k=0;k<box.children[0].children[i].children.length;k++){
-					var letterSpan = box.children[0].children[i].children[k].children[0];
+			for(var i=0;i<_container.children[0].children.length;i++){
+				for(var k=0;k<_container.children[0].children[i].children.length;k++){
+					var letterSpan = _container.children[0].children[i].children[k].children[0];
 					if(letterSpan!= null && letterSpan.getAttribute("data-contents").length==1){
 						letterSpan.parentElement.addEventListener("click",function(e){
 							document.dispatchEvent(new KeyboardEvent('keydown',{'key':this.children[0].getAttribute("data-contents")[0]}));
@@ -512,6 +550,7 @@ var makeExportButton = function(model,divId){
 	var _model = model;
 	var _id = divId;
 	var _observers = makeSignaller();
+	var _container = document.getElementById(divId);
 	var _btn = document.createElement("input");
 	_btn.setAttribute("id","exportButton");
 	_btn.setAttribute("type","button");
@@ -523,12 +562,17 @@ var makeExportButton = function(model,divId){
 		});
 	}
 	_btn.addEventListener("click",_shareFunc);
-	document.getElementById(divId).appendChild(_btn);
+	_container.appendChild(_btn);
 	return {
 		"register": function(observer_function){
 			_observers.add(observer_function);
 		},
 		"render": function(){
+			if(_model.getMode()==DATA.modes.modeSelect){
+				_container.classList.add("disabled");
+			} else {
+				_container.classList.remove("disabled");
+			}
 			if(_model.hasWon()!=0){
 				_btn.setAttribute("class","en");
 			} else {
@@ -541,6 +585,7 @@ var makeExportButton = function(model,divId){
 var makeGuessButton = function(model,divId,g1,g2,g3,g4){
 	var _model = model;
 	var _id = divId;
+	var _container = document.getElementById(divId);
 	var _observers = makeSignaller();
 	var _guessViews = [g1,g2,g3,g4];
 	var _btn = document.createElement("input");
@@ -567,12 +612,17 @@ var makeGuessButton = function(model,divId,g1,g2,g3,g4){
 	}
 	_btn.addEventListener("click", _guessFunc);
 	_btn.classList.add("disabled");
-	document.getElementById(divId).appendChild(_btn);
+	_container.appendChild(_btn);
 	return {
 		"register": function(observer_function){
 			_observers.add(observer_function);
 		},
 		"render": function(){
+			if(_model.getMode()==DATA.modes.modeSelect){
+				_container.classList.add("disabled");
+			} else {
+				_container.classList.remove("disabled");
+			}
 			if(_model.hasWon()!=0){
 				_btn.classList.remove("disabled");
 				_btn.setAttribute("value","Play Again");
@@ -591,12 +641,18 @@ var makeGuessButton = function(model,divId,g1,g2,g3,g4){
 var makeErrorBox = function(model,divId){
 	var _model = model;
 	var _id = divId;
-	var _box = document.createElement("span");
-	_box.innerHTML = _model.getError();
-	document.getElementById(_id).appendChild(_box);
+	var _container = document.getElementById(divId);
+	var _text = document.createElement("span");
+	_text.innerHTML = _model.getError();
+	_container.appendChild(_box);
 	return {
 		"render": function(){
-			_box.innerHTML = _model.getError();
+			if(_model.getMode()==DATA.modes.modeSelect){
+				_container.classList.add("disabled");
+			} else {
+				_container.classList.remove("disabled");
+			}
+			_text.innerHTML = _model.getError();
 		}
 	}
 }
@@ -651,11 +707,11 @@ var makeShareView = function(model,divId){
 		},
 		
 		"render": function(){
-			if(_model.getSharing()){
-				_box.classList.remove("disabled");
+			if(!_model.getSharing() || _model.getMode()==DATA.modes.modeSelect){
+				_box.classList.add("disabled");
 			}
 			else{
-				_box.classList.add("disabled");
+				_box.classList.remove("disabled");
 			}
 			_box.lastChild.remove();
 			var s = document.createElement("span");
@@ -664,6 +720,47 @@ var makeShareView = function(model,divId){
 			_box.appendChild(s);
 		}
 	}
+}
+
+var makeModeToggle = function(model,divId) {
+	var _model = model;
+	var _observers = makeSignaller();
+	var _container = document.getElementById(divId);
+	var _dailyBtn = document.createElement("input");
+	var _randomBtn = document.createElement("input");
+	_dailyBtn.setAttribute("class","modeButton");
+	_dailyBtn.setAttribute("value","Daily");
+	_dailyBtn.setAttribute("type","button");
+	_randomBtn.setAttribute("class","modeButton");
+	_randomBtn.setAttribute("value","Random");
+	_randomBtn.setAttribute("type","button");
+	_container.appendChild(_dailyBtn);
+	_container.appendChild(_randomBtn);
+	_dailyBtn.addEventListener("click",(evt) => {
+		_observers.notify({
+			type: DATA.signals.changeMode,
+			mode: DATA.modes.daily
+		});
+	});
+	_randomBtn.addEventListener("click",(evt) => {
+		_observers.notify({
+			type: DATA.signals.changeMode,
+			mode: DATA.modes.random
+		});
+	});
+	return {
+		"register": function(observer_function){
+			_observers.add(observer_function);
+		},
+		
+		"render": function(){
+			if(_model.getMode()==DATA.modes.modeSelect){
+				_container.classList.remove("disabled");
+			} else {
+				_container.classList.add("disabled");
+			}
+		}
+	};
 }
 
 document.addEventListener("DOMContentLoaded", async function(event) {
@@ -692,6 +789,10 @@ document.addEventListener("DOMContentLoaded", async function(event) {
 	var btn2 = makeExportButton(model,"btnDiv");
 
 	var Ebox = makeErrorBox(model,"errBox");
+	
+	var modeSelect = makeModeToggle(model,"modeToggle");
+	
+	modeSelect.register(controller.dispatch);
 
 	shareBox.register(controller.dispatch);
 
@@ -711,6 +812,7 @@ document.addEventListener("DOMContentLoaded", async function(event) {
 	model.register(guess4.render);
 
 	model.register(letters.render);
+	model.register(modeSelect.render);
 //hmm
 	document.onkeydown = function(evt) {
 		console.log("key: "+evt.key);
