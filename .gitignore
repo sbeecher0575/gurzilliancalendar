@@ -1,3 +1,6 @@
 key.txt
 push
 qordle/test.html
+node_modules/**
+package-lock.json
+package.json
