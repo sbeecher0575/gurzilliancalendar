@@ -39,7 +39,7 @@ var makeModel = function(){
 	var _hasGuessed = [0,0,0,0];
 	var _letters = [[],[],[],[]];
 	var _observers = makeSignaller();
-	var _canLose = false;
+	var _canLose = true;
 	var _recentError = "";
 	var _sharing = false;
 	var _mode = DATA.modes.modeSelect;
@@ -237,7 +237,11 @@ var makeModel = function(){
 			} else {
 				ret+=""
 			}
-			ret += "Qordle in "+_numAttempts+"\n";
+			if(this.hasWon()==-1){
+				ret += "Qordle in X/8\n";
+			} else {
+				ret += "Qordle in "+_numAttempts+"/8\n";
+			}
 			for(var i=0;i<_attempts.length;i++){
 				if(_shrinkShare && !this.isCorrect(i)){
 					continue;
