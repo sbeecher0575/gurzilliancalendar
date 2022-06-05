@@ -60,6 +60,17 @@ app.get('/pull',(req,res)=>{
 	})
 })
 
+app.get('/date',(req,res)=>{
+	res.setHeader('Access-Control-Allow-Origin','*')
+	app.use(express.static(__dirname + '/dates/'+req.query.date));
+	res.sendFile(__dirname + "/dates/"+req.query.date+"/index.html",(err) => {
+		if(err){
+			console.log(err);
+			res.end(err.message);
+		}
+	});
+})
+
 
 
 
