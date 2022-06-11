@@ -39,7 +39,7 @@ var makeModel = function(){
 	var _hasGuessed = [0,0,0,0];
 	var _letters = [[],[],[],[]];
 	var _observers = makeSignaller();
-	var _canLose = false;
+	var _canLose = true;
 	var _recentError = "";
 	var _sharing = false;
 	var _mode = DATA.modes.modeSelect;
@@ -164,7 +164,6 @@ var makeModel = function(){
 			if(_mode==DATA.modes.random){
 				return fetch(new Request(DATA.ENDPOINT+"?ask=request&count="+num))
 			} else if(_mode==DATA.modes.daily){
-				console.log(DATA.ENDPOINT+"?ask=request&count="+num+"&seed="+num+":"+(getDateString(new Date())));
 				return fetch(new Request(DATA.ENDPOINT+"?ask=request&count="+num+"&seed="+num+":"+(getDateString(new Date()))))
 			} else {
 				return fetch(new Request(DATA.ENDPOINT+"?ask=request&count="+num))
@@ -174,7 +173,7 @@ var makeModel = function(){
 		"setAnswerWords": async function(){
 			await this.getRandomWord(4)
 				.then(response=>response.json())
-				.then(jval=>{_correctAnswers = jval; console.log(jval);});
+				.then(jval=>{_correctAnswers = jval;});
 		},
 		
 		"getMode": function(){
@@ -230,8 +229,19 @@ var makeModel = function(){
 			var GB = "&#x1F7E9;"
 			var BB = "&#x2B1B;"
 			var YB = "&#x1F7EA;"
-			
-			var ret = "Qordle in "+_numAttempts+"\n";
+			var ret = ""
+			if(_mode==DATA.modes.daily){
+				ret+="Daily ";
+			} else if(_mode==DATA.modes.random){
+				ret+="";
+			} else {
+				ret+=""
+			}
+			if(this.hasWon()==-1){
+				ret += "Qordle in X/8\n";
+			} else {
+				ret += "Qordle in "+_numAttempts+"/8\n";
+			}
 			for(var i=0;i<_attempts.length;i++){
 				if(_shrinkShare && !this.isCorrect(i)){
 					continue;

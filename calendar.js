@@ -1,3 +1,5 @@
+//Add gurzillian MMDDYYYY format dates to this array to jump to different pages on click
+var DATES_WITH_STUFF = ['06142022']
 
 var months = ["maru", "bellust", "istari", "janusary", "amani", "concordium", "settember", "helios", "baldra", "vishnuber", "kalai", "ahrima", "nott", "midwinter"]
 var gregMonths = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
@@ -36,12 +38,32 @@ var nextMonth = function(event){
     setMonth(months[index])
 }
 
+var loadPage = function(ev){
+    var count = parseInt(ev.target.children[0].innerHTML);
+    var month = document.getElementById("month")
+    var monthName = document.getElementById("monthName")
+    var monthNum = months.indexOf(monthName.children[0].innerHTML)+1;
+    var dateString = ""
+    if(monthNum<10){dateString = dateString + "0"}
+    dateString = dateString + ""+monthNum;
+    if(count<10){dateString = dateString + "0"}
+    dateString = dateString + ""+count;
+    dateString = dateString + ""+globalYear;
+    var url = window.location.href
+    if(url.lastIndexOf("/")>10){
+        url = url.substring(0,url.lastIndexOf("/"))
+    }
+    url = url + "/date?date=" + dateString 
+    window.location.href = url
+}
+
 var setGurzDays = function(){
     while(document.getElementsByClassName("daynumber").length>0){
         document.getElementsByClassName("daynumber")[0].remove()
     }
     var startDay = getStartYear(globalYear).getDay()
     var month = document.getElementById("month")
+    var monthName = document.getElementById("monthName")
     var count = 29-startDay
     var extraDays = -1
     for(var i=3; i<month.children.length; i++){
@@ -52,6 +74,17 @@ var setGurzDays = function(){
             number.classList.add("daynumber")
             if(count==29){count=1; extraDays++} 
             number.innerHTML=count
+
+            var monthNum = months.indexOf(monthName.children[0].innerHTML)+1;
+            var dateString = ""
+            if(monthNum<10){dateString = dateString + "0"}
+            dateString = dateString + ""+monthNum;
+            if(count<10){dateString = dateString + "0"}
+            dateString = dateString + ""+count;
+            dateString = dateString + ""+globalYear;
+            if(DATES_WITH_STUFF.indexOf(dateString)>=0){
+                day.addEventListener("click",function(event){loadPage(event)});
+            }
             if(extraDays!=0){number.classList.add("extraDay")}
             // var currentGurzDate = greg2gurz(new Date())
             // var monthCheck = monthName.children[0].innerHTML
@@ -191,7 +224,7 @@ var setMonth = function(monthString){
         currentMonth = "nott"
     }
     monthName.children[0].innerHTML = monthString
-    if(currentMonth != monthString){
+    if(currentMonth != monthString){// if monthString is n&Oacute;tt, this has to be true. possible bug
         while(document.getElementsByClassName(currentMonth).length>0){
             var elem = document.getElementsByClassName(currentMonth)[0]
             elem.classList.remove(currentMonth)
