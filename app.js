@@ -5,6 +5,15 @@ const util = require('./wordUtil.js')
 util.initLists();
 const app = express()
 const port = 3000
+var files = {}
+
+fs.readFile('files/StoryFile.md', 'utf8', (err,data) => {
+	if(err){
+		console.error(err)
+		return []
+	}
+	files["story"] = data
+});
 
 app.use(express.static(__dirname + '/'));
 app.get('/',(req,res)=>{
@@ -69,6 +78,15 @@ app.get('/date',(req,res)=>{
 			res.end(err.message);
 		}
 	});
+})
+
+app.use(express.static(__dirname + '/'));
+app.get('/file',(req,res)=>{
+	res.setHeader('Access-Control-Allow-Origin','*')
+	if(req.query.file){
+		res.send(files[req.query.file])
+	}
+	res.send(0)
 })
 
 
