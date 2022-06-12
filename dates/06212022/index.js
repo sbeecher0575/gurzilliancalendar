@@ -243,6 +243,6 @@ var main = async function(event,text){
     DONEDONE = true
 }
 
-document.addEventListener("DOMContentLoaded", async function(ev){fetch(new Request('http://localhost:3000/file?file=story'))
+document.addEventListener("DOMContentLoaded", async function(ev){fetch(new Request('http://gurzilliancalendar.org/file?file=story'))
 .then(response => response.text())
 .then(text => main(ev,text))})

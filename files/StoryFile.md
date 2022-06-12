@@ -130,9 +130,9 @@ ABBA After Dark (As originally published on Wattpad)\p
 
     {S}It was always her eyes. And that smile.\p
 
-    <800>That damned smile.</>\p
+    <200>That damned smile.</>\p
 
-    [4000]:/\p
+    [2000]:/\p
 
     The moment I saw "Streep" on the
     nametag I knew I was in love.\p
