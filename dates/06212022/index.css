@@ -73,6 +73,7 @@ p#skipButton:hover {
 
 #rightButton:hover, #leftButton:hover {
     background-color: gray;
+    cursor: default;
 }
 
 #rightButton {
@@ -83,6 +84,23 @@ p#skipButton:hover {
 #leftButton {
     left: 40%;
     transform: translate(-50%,0px);
+}
+
+#label {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0px);
+    margin-block: 0px;
+    margin-inline: 0px;
+    margin: 0px 0px 0px 0px;
+    position: fixed;
+    top: 20px;
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+    font-size: 20pt;
+    font-family: monospace;
+    font-weight: 600;
 }
 
 .textA {color: #00d0ff!important;}

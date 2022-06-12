@@ -169,7 +169,9 @@ var writeStory = async function(stories){
 }
 
 var main = async function(event,text){
+    var label = document.getElementById("label")
     var stories = text.split("NEWSTORY")
+    label.innerHTML = ""+(STORIES_PRINTED+1)+"/"+stories.length
     var btn = document.getElementById("skipButton")
     var goAgain = true
     btn.addEventListener("click", function(event){
