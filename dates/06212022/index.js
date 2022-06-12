@@ -188,6 +188,7 @@ var main = async function(event,text){
         if(STORIES_PRINTED==stories.length){
             STORIES_PRINTED = stories.length-1
         }
+	label.innerHTML = ""+(STORIES_PRINTED+1)+"/"+stories.length
         if(!DONEDONE){
             RST = true
         } else {
@@ -213,6 +214,7 @@ var main = async function(event,text){
         if(STORIES_PRINTED<0){
             STORIES_PRINTED = 0
         }
+    	label.innerHTML = ""+(STORIES_PRINTED+1)+"/"+stories.length
         if(!DONEDONE){
             RST = true
         } else {

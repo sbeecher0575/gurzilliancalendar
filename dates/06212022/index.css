@@ -93,7 +93,6 @@ p#skipButton:hover {
     margin-block: 0px;
     margin-inline: 0px;
     margin: 0px 0px 0px 0px;
-    position: fixed;
     top: 20px;
     width: fit-content;
     height: fit-content;
@@ -101,6 +100,7 @@ p#skipButton:hover {
     font-size: 20pt;
     font-family: monospace;
     font-weight: 600;
+    padding: 10px 20px 10px 20px;
 }
 
 .textA {color: #00d0ff!important;}
