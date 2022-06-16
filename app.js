@@ -85,8 +85,9 @@ app.get('/file',(req,res)=>{
 	res.setHeader('Access-Control-Allow-Origin','*')
 	if(req.query.file){
 		res.send(files[req.query.file])
+	} else {
+		res.send(0)
 	}
-	res.send(0)
 })
 
 

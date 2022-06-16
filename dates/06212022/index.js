@@ -1,12 +1,9 @@
 DEFAULT_SPEED = 50
-RST = false
-BREAK_TEXT = false
 STORIES_PRINTED = 0
-PREV_STORY = 0
 CURRENT_COLOR = "J"
-DONE_PRINTING = false
 DONEDONE = false
 SKP = false
+NEXT_STORY = false
 function isNumeric(str) {
     if (typeof str != "string") return false // we only process strings!  
     return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
@@ -28,7 +25,7 @@ var moveSpanToEnd = function(str){
  * [TIME] waits for TIME milliseconds before continuing
  * {C} changes color to C's color 
  */
-var printText = async function(text,id,instant=false){
+var printText = async function(text,id,instant){
     var textBox = document.getElementById(id)
     var text = text.split("");
     var i = 0;
@@ -37,7 +34,7 @@ var printText = async function(text,id,instant=false){
     speeds = []
     textBox.innerHTML = textBox.innerHTML + "<span class='text"+CURRENT_COLOR+"'>"
     for(var i=0;i<text.length;i++){
-        if(BREAK_TEXT){
+        if(SKP || NEXT_STORY){
             break
         }
         if(text[i]=="{"){
@@ -127,45 +124,52 @@ var fillStory = async function(stories,index){
 
 var writeStory = async function(stories){
     var StoryBox = document.getElementById("storyBox")
-    if(DONE_PRINTING){
-        RST = false
-        await fillStory(stories,STORIES_PRINTED)
-    } else {
-        var story = stories[STORIES_PRINTED]
-        var paragraphs = story.split("\\p")
-        var titleP = document.createElement("p")
-        titleP.classList.add("title")
-        titleP.id="title"+stories.indexOf(story)
-        StoryBox.appendChild(titleP)
-        var storyDiv = document.createElement("div")
-        storyDiv.classList.add("story")
-        storyDiv.id="story"+stories.indexOf(story)
-        StoryBox.appendChild(storyDiv)
-        await printText(paragraphs[0],titleP.id)
-        for(var i=1;i<paragraphs.length;i++){
-            var p = document.createElement("p")
-            p.classList.add("paragraph")
-            p.id="p"+stories.indexOf(story)+"-"+i
-            storyDiv.appendChild(p)
-            if(RST){
-                clearStories()
-                break
-            }
-            await printText(paragraphs[i],p.id)
-            if(RST){
-                clearStories()
-                break
-            }
+    var story = stories[STORIES_PRINTED]
+    var paragraphs = story.split("\\p")
+    var titleP = document.createElement("p")
+    titleP.classList.add("title")
+    titleP.id="title"+stories.indexOf(story)
+    StoryBox.appendChild(titleP)
+    var storyDiv = document.createElement("div")
+    storyDiv.classList.add("story")
+    storyDiv.id="story"+stories.indexOf(story)
+    StoryBox.appendChild(storyDiv)
+    await printText(paragraphs[0],titleP.id,false)
+    if(SKP || NEXT_STORY){
+        return
+    }
+    for(var i=1;i<paragraphs.length;i++){
+        var p = document.createElement("p")
+        p.classList.add("paragraph")
+        p.id="p"+stories.indexOf(story)+"-"+i
+        storyDiv.appendChild(p)
+        if(SKP || NEXT_STORY){
+            return
         }
-        //If skipping, but not if moving to the next story
-        if(SKP){
-            DONE_PRINTING = true
-            SKP = false
+        await printText(paragraphs[i],p.id,false)
+        if(SKP || NEXT_STORY){
+            return
         }
     }
-    if(RST){//if skipping, done_printing should be true. //if moving to the next story, done_printing should be false
-        RST = false
-        writeStory(stories)
+}
+
+var storyLoop = async function(stories){
+    while(true){
+        label.innerHTML = ""+(STORIES_PRINTED+1)+"/"+stories.length
+        NEXT_STORY = false
+        clearStories()
+        await writeStory(stories)
+        if(SKP){
+            SKP = false
+            NEXT_STORY = false
+            clearStories()
+            fillStory(stories,STORIES_PRINTED)
+            DONEDONE = true
+            break
+        } else if(!NEXT_STORY){
+            DONEDONE = true
+            break
+        }
     }
 }
 
@@ -174,79 +178,39 @@ var main = async function(event,text){
     var stories = text.split("NEWSTORY")
     label.innerHTML = ""+(STORIES_PRINTED+1)+"/"+stories.length
     var btn = document.getElementById("skipButton")
-    var goAgain = true
     btn.addEventListener("click", function(event){
         if(!DONEDONE){
-            clearStories()
-            RST = true
             SKP = true
         }
     })
     var rightBtn = document.getElementById("rightButton")
     rightBtn.addEventListener("click", async function(event){
-        clearStories()
         STORIES_PRINTED = STORIES_PRINTED + 1
         if(STORIES_PRINTED==stories.length){
             STORIES_PRINTED = stories.length-1
         }
-	label.innerHTML = ""+(STORIES_PRINTED+1)+"/"+stories.length
-        if(!DONEDONE){
-            RST = true
-        } else {
-            DONE_PRINTING = false
+        if(DONEDONE){
             DONEDONE = false
-            goAgain = true
-            while(goAgain){
-                goAgain = false
-                clearStories()
-                PREV_STORY = STORIES_PRINTED
-                await writeStory(stories)
-                if(STORIES_PRINTED==PREV_STORY){
-                    goAgain = false
-                    
-                }
-            }
-            DONEDONE = true
+            await storyLoop(stories)
+        } else {
+            NEXT_STORY = true
         }
     })
     var leftBtn = document.getElementById("leftButton")
     leftBtn.addEventListener("click", async function(event){
-        clearStories()
         STORIES_PRINTED = STORIES_PRINTED - 1
         if(STORIES_PRINTED<0){
             STORIES_PRINTED = 0
         }
-    	label.innerHTML = ""+(STORIES_PRINTED+1)+"/"+stories.length
-        if(!DONEDONE){
-            RST = true
-        } else {
-            DONE_PRINTING = false
+        if(DONEDONE){
             DONEDONE = false
-            goAgain = true
-            while(goAgain){
-                goAgain = false
-                clearStories()
-                PREV_STORY = STORIES_PRINTED
-                await writeStory(stories)
-                if(STORIES_PRINTED==PREV_STORY){
-                    goAgain = false
-                }
-            }
-            DONEDONE = true
+            await storyLoop(stories)
+        } else {
+            NEXT_STORY = true
         }
     })
     var StoryBox = document.getElementById("storyBox")
-    while(goAgain){
-        goAgain = false
-        clearStories()
-        PREV_STORY = STORIES_PRINTED
-        await writeStory(stories)
-        if(STORIES_PRINTED!=PREV_STORY){
-            PREV_STORY = STORIES_PRINTED
-            goAgain = true
-        }
-    }
-    DONEDONE = true
+    await storyLoop(stories)
 }
 
 document.addEventListener("DOMContentLoaded", async function(ev){fetch(new Request('http://gurzilliancalendar.org/file?file=story'))
