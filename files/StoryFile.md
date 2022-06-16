@@ -369,7 +369,7 @@ now. Ever since order had been reestablished and
 the need for news addressed. He started each
 week at the Hub, where he gathered the week's
 news. Laws passed, updates on the war,
-and, most important of all, storm predictions.
+and, most important of all, storm predictions.\p
     {A}Once he had everything he needed, he'd strap
 on his helmet (safety first), hop on his one-wheel,
 and jet off down the block so fast it felt like
