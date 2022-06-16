@@ -1,5 +1,6 @@
 DEFAULT_SPEED = 50
 RST = false
+BREAK_TEXT = false
 STORIES_PRINTED = 0
 PREV_STORY = 0
 CURRENT_COLOR = "J"
@@ -36,7 +37,7 @@ var printText = async function(text,id,instant=false){
     speeds = []
     textBox.innerHTML = textBox.innerHTML + "<span class='text"+CURRENT_COLOR+"'>"
     for(var i=0;i<text.length;i++){
-        if(RST){
+        if(BREAK_TEXT){
             break
         }
         if(text[i]=="{"){
