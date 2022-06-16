@@ -246,3 +246,239 @@ Meryl Streep. Old wife? I literally forgot her name.
 Meryl is an Oscar machine, & if I can get even
 a single slice of that sweet, Academy pie, I'll
 be riding high for the rest of my life.
+NEWSTORY{J}<250>The Key Factory</>[1000]\p
+    {T}Click. Whir<100>rrr...</> thump! Click. Whir<100>rrr...</> thump!\p
+    It was all she'd hear for the next nine hours.
+Footsteps in the background, the\p
+walkie talkies of the Supervisors and even the National
+Reports coming through her earpiece would be
+drowned out by Click. Whirrrr... thump!\p
+    {A}While the monotony bothered some,
+Khrysanthemum took a sort of comfort from
+the routine. What she lacked in
+ambition & creativity, she more than made up
+for in consistency, which made her well-suited
+for her job.\p
+    {S}She didn't dream of much, content with
+the ever-present click-whirrrr-thump! of the machines.
+There was always solace in routine. Sometimes during
+a lull in the creation she'd hear the Supervisors
+chastising another worker or the National Reports
+listing names, "Evergreen.... Peonee...." Khrysanthemum never knew
+any of them. So she didn't think much about
+the names; it was just part of the routine.\p
+    {J}She often wondered if other workers were different.
+Did they know any names? The factory stretched on
+endlessly, there must be hundreds of workers. Were they
+all like her? Sometimes she struggled to imagine any other
+life than the droning machines and clicking metal.\p
+    {T}The National Reports said there was safety
+in anonymity. The nation knew each citizen, and
+each citizen knew the nation! The nation
+cared for each citizen, providing work, shelter, and
+daily rations. The National Reports said it was
+safest to be satisfied with what the nation gives
+and not to go looking for more.\p
+    Click. Whirrrrr... thump! Thinking about such things too long
+made Khrysanthemum confused. It was much
+more calming to focus on her work.\p
+    {A}Before she knew it, the day was done. She
+followed the rest of her shiftmembers out, knocking
+shoulders with those on their way in to pick
+up what had been left off.
+By the time she had made it to her apartment,
+the sun had nearly disappeared
+behind the skyline.\p
+    {S}On her walk out the next morning, in the
+space between the waste receptacles, in a place
+she never noticed before, she saw a little
+figure huddled, reaching out for her. She
+recoiled quickly and marched away, afraid to
+Err.\p
+    "I<150>... </>am<150>... </><100>Evergreen...</>"\p
+    Khrysanthemum froze.\p
+    The raspy voice continued.\p
+    "Help<150>.... </>me<150>....</>"\p
+    Khrysanthemum turned around.\p
+    "The<150>... </>keys<150>.....</>"\p
+    This was not in the routine. The Supervisors
+laid no protocol for such an issue, so she
+turned and walked into the Click, Whirrrrr... Thump!
+once more, But the entire day, she would not
+stop thinking about the huddled figure.\p
+    {J}About eight hours later, she heard one of the supervisors
+call out her name. She almost missed it, they never
+spoke to her. She was so suprised, she did miss everything
+that followed, forcing the man to repeat his instructions.
+"Report to senior office 5"\p
+    {T}"Oh, uh, yes sir, right away, sir." Khrysanthemum stuttered.
+It felt so wrong to leaev her station, but the Supervisor
+clearly expected it of her, so she went.\p
+    Each step down the long hallway increased her
+trepidation. Past the maintenance rooms, custodial
+closets, and junior offices, she reached office 5.\p
+    Khrysanthemum knocked twice on the solid grey door
+and waited for what felt like minutes. Just
+as she raised her trembling fist to knock
+again, the door burst open.\p
+    {A}"Alright, the time has begun" said a tall, bespectacled
+man. Khrysanthemum started, unsure of how to
+proceed.\p
+    "Come in, come in", the man said. "We
+have a task for you".\p
+<1000>.   .   .</>\p
+    Khrysanthemum peered into the hole, struggling
+to make room for her eye & the beam to penetrate
+the small opening at the same time.\p
+    "It's in here?" she asked, still skeptical.\p
+    "Yes. You're not the first we've asked to retrieve
+it, but we're hopeful you could be the last".\p
+    {S}She wondered if this has anything to do with
+the figure she saw earlier that day, or night.
+Khrysanthemum never knew anymore.\p
+    Prodding around with the thin metal rod,
+she flipped, moved, and turned items in the
+box. At last, she saw it, the glint of
+metal on the ring. Pushing the rod through
+it, she carefully balanced the key on the
+rod as she tried to remove it from the box.\p
+    Millimeters from the edge,
+the key slipped off the rod, with the
+loudest clang she would hear for some time.\p
+    "Oh, Khrysanthemum, I really thought
+you were going to be the one."\p
+    {J}"I'm sorry sir," she said, "I'll try again"
+"No, I'm afraid that won't be possible. We expect
+only perfection, we require it. The guard will see you out."\p
+
+The large man by the door grabbed her arm and
+began dragging her away. She was too shocked
+to resist. How could she leave the factory?
+What would she do? What else could she do?\p
+NEWSTORY{S}<400>The Messenger </><1000>II
+    Into the Wild\p
+{J}Gerald was a news man. He didn't deliver letters
+or packages, he didn't deliver groceries. Gerald
+was a news man. He was quite satisfied by that.
+There was a certain nobility in it, knowing that, without
+him, everyone would be completely disconnected. Nobody
+lived close enough to anyone else to survive without the
+delivery {T}of weekly news.\p
+    He'd been a news man for nearly fourteen years
+now. Ever since order had been reestablished and
+the need for news addressed. He started each
+week at the Hub, where he gathered the week's
+news. Laws passed, updates on the war,
+and, most important of all, storm predictions.
+    {A}Once he had everything he needed, he'd strap
+on his helmet (safety first), hop on his one-wheel,
+and jet off down the block so fast it felt like
+he was flying. Children would stop and stare in
+awe, but knew not to get in his way. The
+news stops for no one! Once he reached District
+1, he'd come scraping to a stop & unfold
+his megaphone. Hand on hip, mic in hand,
+dapper as all hell & knew it too.\p
+    Then, he'd close his eyes.\p
+    {S}To the Orbiters, it probably looked like nothing
+was happening. It was more of a thrumming, a
+connection than message delivery. Once he closed
+his eyes, the district froze. The streets were pulsing
+with his message; Gerald did not communicate through
+words but rather with a feeling— the people were
+not told the weather but knew instinctively the
+temperature, whether it was going to rain, and the
+safe places to hide.\p
+{J}Some said that men like Gerald would be replaced
+one day, but he payed them no mind. He was a
+news man and that would never change.\p
+
+    When he returned to the Hub, he checked his
+route and stared for a moment in surprise. Houses were
+generally quite sparse, but the new location on his
+map was farther out than he'd ever been. No
+matter, he was a news man. He delivered the news. {T}He'd
+deliver it wherever it was needed.\p
+    Off he went to District 1, then 3, then 2
+(for despite their names, this was the most
+efficient route). He delivered the news
+clearly, concisely, and accurately. As any good
+news man would.\p
+    Then it was time for this new location. He'd
+stop in 5, 4, 6, and 7 on the way back.
+Curious, not having had a new location in some
+years, he jetted down the road. On and on he
+went. Until he reached the end of the road,
+and still, he was not in range of this new
+location.\p
+    {A}He mapped his brow with his monogrammed
+sweat rag, took a shot of Gatorade, & was
+off once again. Trees faded to bushes which
+soon disappeared. An hour had passed
+& he still wasn't there! An interesting development.\p
+    A newsman though he was, he wasn't immune
+to fatigue. He took a moment to meditate,
+& after channeling the strength of 1000 boars,
+the tenacity of 1000 lions & the speed of
+1000 leopards, he continued his journey.\p
+    {S}Gerald crested the hill, and saw nothing,
+just the heat waves emanating off of the
+green meadow. As he used up the last of the
+leopard power, he was nearing 10,000 miles per
+hour on his one-wheel. He noticed something
+shimmering, in the distance,
+but before he could react, the knights
+had him surrounded.\p
+    In a dizzying feat of acrobatics, they
+circled him, and then descended.\p
+    "THROUGH SNOW OR SLEET OR HAIL
+    OR SHIT" he screamed trying to
+fend them off.\p
+    {J}Though his lion hearted tenacity had long
+since turned to exhaustion, he was still determined,
+and he still had Gatorade. A quick sip gave him
+all the energy he needed to break through the
+circle of knights and continue forward. He was
+here to deliver the news, not have adventures of
+his own.\p
+    His destination wasn't far ahead and, as he
+slowed, Gerald prepared his tools and kept watch
+for more trouble. {T}He could just see the knights
+on the horizon, but he was in range now. He'd
+finish his delivery before they arrived. Once he was
+done... well, he'd figure it out when it happened.
+    "Through snow or sleet or hail or shit," he muttered,
+and he closed his eyes.\p
+    If his delivery was somewhat faster than usual,
+no one could blame him. But he'd be damned if
+he left anything out.\p
+    News delivered, he opened his eyes, immediately
+turning to locate the knights.\p
+    They were too close now, and there were
+too many to fight off. Maybe if he had the
+strength of 10,000 boars and the tenacity of
+10,000 lions, but {A}as it stood, 1000 leopards would
+have to do.\p
+    Shucking his one-wheel into his backpack, he bent
+forward at the waist and stuck his arms straight
+out behind him. One deep breath in— & he was off.\p
+    In regular circumstances, he might have made it,
+but these knights were far from regular. In fact, they
+were
+    — The 1990 Olympic gymnastics gold medalist
+    — The entire Canadian curling team
+    — Simone Biles
+    — The rest of the American gymnastics team who
+        aren't Simone Biles
+so in reality, he never stood a chance. {S}Nevertheless,
+he needed to try.\p
+    Looking around him, he knew he would never
+physically make it to his destination. So he'd deliver
+from here.\p
+    With a gleam in his eye, he pulled out the
+megaphone from his pack and began the
+broadcast.\p
+    The knights froze. Gerald read them
+the news: the joys and sorrows, the esciting, the
+mundane, and the whirlwind that was about to
+strike.
