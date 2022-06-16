@@ -203,6 +203,7 @@ var main = async function(event,text){
                 await writeStory(stories)
                 if(STORIES_PRINTED==PREV_STORY){
                     goAgain = false
+                    
                 }
             }
             DONEDONE = true
