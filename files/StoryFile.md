@@ -1,5 +1,5 @@
 {T}Planet 10: Attack of the <ul>Earthlings</ul>\p
-[2000]{A}   It was a particularly shady day on Planet 10.
+[1000]{A}   It was a particularly shady day on Planet 10.
 Every day was shady on Planet 10 because the
 Star was really bright so they planted a lot of
 upstanding trees to protect their skin from Starburns.
@@ -121,7 +121,7 @@ she could probably get out!\p
     She stood and took a few steps. The little
 giant ignored her. Trading its ambivalence as a
 sign she was free to go, she hurried to
-the doorway and peeked around it.
+the doorway and peeked around it.\p
     A hallway. No giants, countless doorways.
 Jane ran, looking through each door,
 Lots of furniture. A few giants. No exits
@@ -246,10 +246,10 @@ Meryl Streep. Old wife? I literally forgot her name.
 Meryl is an Oscar machine, & if I can get even
 a single slice of that sweet, Academy pie, I'll
 be riding high for the rest of my life.
-NEWSTORY{J}<250>The Key Factory</>[1000]\p
+NEWSTORY{J}The Key Factory[1000]\p
     {T}Click. Whir<100>rrr...</> thump! Click. Whir<100>rrr...</> thump!\p
     It was all she'd hear for the next nine hours.
-Footsteps in the background, the\p
+Footsteps in the background, the
 walkie talkies of the Supervisors and even the National
 Reports coming through her earpiece would be
 drowned out by Click. Whirrrr... thump!\p
@@ -355,8 +355,8 @@ The large man by the door grabbed her arm and
 began dragging her away. She was too shocked
 to resist. How could she leave the factory?
 What would she do? What else could she do?\p
-NEWSTORY{S}<400>The Messenger </><1000>II
-    Into the Wild\p
+NEWSTORY{S}The Messenger [2000]<1000>II</>
+ Into the Wild\p
 {J}Gerald was a news man. He didn't deliver letters
 or packages, he didn't deliver groceries. Gerald
 was a news man. He was quite satisfied by that.
@@ -446,7 +446,7 @@ slowed, Gerald prepared his tools and kept watch
 for more trouble. {T}He could just see the knights
 on the horizon, but he was in range now. He'd
 finish his delivery before they arrived. Once he was
-done... well, he'd figure it out when it happened.
+done... well, he'd figure it out when it happened.\p
     "Through snow or sleet or hail or shit," he muttered,
 and he closed his eyes.\p
     If his delivery was somewhat faster than usual,
