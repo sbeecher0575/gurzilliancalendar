@@ -27,7 +27,6 @@ var moveSpanToEnd = function(str){
  */
 var printText = async function(text,id,instant){
     var textBox = document.getElementById(id)
-    var text = text.split("");
     var i = 0;
     var textSpeed = DEFAULT_SPEED
     var inSpeed = 0
@@ -44,7 +43,7 @@ var printText = async function(text,id,instant){
             var n = textBox.innerHTML.lastIndexOf("</span>")
             textBox.innerHTML = moveSpanToEnd(textBox.innerHTML)+"<span class='text"+person+"'>"
         } else if(text[i]=="<"){
-            var contents = text.join("").slice(i+1,text.indexOf(">",i+1))
+            var contents = text.slice(i+1,text.indexOf(">",i+1))
             if(isNumeric(contents)){
                 inSpeed = 1
                 speeds.push(textSpeed)
@@ -61,12 +60,12 @@ var printText = async function(text,id,instant){
                     }
                 }
                 else{
-                    textBox.innerHTML = textBox.innerHTML+text.join("").slice(i,text.indexOf(">",i+1))
+                    textBox.innerHTML = textBox.innerHTML+text.slice(i,text.indexOf(">",i+1))
                 }
             }
             i = text.indexOf(">",i+1)
         } else if(text[i]=="["){
-            var time = parseInt(text.join("").slice(i+1,text.indexOf("]",i+1)))
+            var time = parseInt(text.slice(i+1,text.indexOf("]",i+1)))
             if(!instant){
                 await delay(time)
             }
@@ -213,6 +212,6 @@ var main = async function(event,text){
     await storyLoop(stories)
 }
 
-document.addEventListener("DOMContentLoaded", async function(ev){fetch(new Request('http://gurzilliancalendar.org/file?file=story2'))
+document.addEventListener("DOMContentLoaded", async function(ev){fetch(new Request('http://localhost:3000/file?file=story2'))
 .then(response => response.text())
 .then(text => main(ev,text))})
