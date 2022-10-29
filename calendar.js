@@ -1,5 +1,5 @@
 //Add gurzillian MMDDYYYY format dates to this array to jump to different pages on click
-var DATES_WITH_STUFF = ['06142022','06212022']
+var DATES_WITH_STUFF = ['06142022','06212022','11212022']
 
 var months = ["maru", "bellust", "istari", "janusary", "amani", "concordium", "settember", "helios", "baldra", "vishnuber", "kalai", "ahrima", "nott", "midwinter"]
 var gregMonths = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]

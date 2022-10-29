@@ -213,6 +213,6 @@ var main = async function(event,text){
     await storyLoop(stories)
 }
 
-document.addEventListener("DOMContentLoaded", async function(ev){fetch(new Request('http://gurzilliancalendar.org/file?file=story'))
+document.addEventListener("DOMContentLoaded", async function(ev){fetch(new Request('http://gurzilliancalendar.org/file?file=story2'))
 .then(response => response.text())
 .then(text => main(ev,text))})

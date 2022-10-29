@@ -15,6 +15,14 @@ fs.readFile('files/StoryFile.md', 'utf8', (err,data) => {
 	files["story"] = data
 });
 
+fs.readFile('files/StoryFile2.md','utf8', (err,data) => {
+	if(err){
+		console.error(err)
+		return []
+	}
+	files["story2"] = data
+});
+
 app.use(express.static(__dirname + '/'));
 app.get('/',(req,res)=>{
 	res.setHeader('Access-Control-Allow-Origin','*')
