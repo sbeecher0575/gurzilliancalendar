@@ -14,9 +14,9 @@ var delay = function(time){
     return new Promise(resolve => setTimeout(resolve, time))
 }
 
-var moveSpanToEnd = function(str){
-    var n = str.lastIndexOf("</span>")
-    return str.substring(0,n) + str.substring(n+7,str.length)+"</span>"
+var moveTagToEnd = function(tag, str){
+    var n = str.lastIndexOf(tag)
+    return str.substring(0,n) + str.substring(n+tag.length,str.length)+tag
 }
 /**
  * story markdown
@@ -27,7 +27,6 @@ var moveSpanToEnd = function(str){
  */
 var printText = async function(text,id,instant){
     var textBox = document.getElementById(id)
-    var text = text.split("");
     var i = 0;
     var textSpeed = DEFAULT_SPEED
     var inSpeed = 0
@@ -42,9 +41,9 @@ var printText = async function(text,id,instant){
             i=text.indexOf('}',i)
             CURRENT_COLOR=person
             var n = textBox.innerHTML.lastIndexOf("</span>")
-            textBox.innerHTML = moveSpanToEnd(textBox.innerHTML)+"<span class='text"+person+"'>"
+            textBox.innerHTML = moveTagToEnd("</span>",textBox.innerHTML)+"<span class='text"+person+"'>"
         } else if(text[i]=="<"){
-            var contents = text.join("").slice(i+1,text.indexOf(">",i+1))
+            var contents = text.slice(i+1,text.indexOf(">",i+1))
             if(isNumeric(contents)){
                 inSpeed = 1
                 speeds.push(textSpeed)
@@ -59,31 +58,38 @@ var printText = async function(text,id,instant){
                         inSpeed = 0
                         speeds = []
                     }
-                }
-                else{
-                    textBox.innerHTML = textBox.innerHTML+text.join("").slice(i,text.indexOf(">",i+1))
+                } else if(text[i+1]=="/"){
+                    textBox.innerHTML = moveTagToEnd(text.substring(i,text.indexOf(">",i+1)+1),textBox.innerHTML)
+                } else {
+                    textBox.innerHTML = moveTagToEnd("</span>",textBox.innerHTML+text.slice(i,text.indexOf(">",i+1)+1))
                 }
             }
             i = text.indexOf(">",i+1)
         } else if(text[i]=="["){
-            var time = parseInt(text.join("").slice(i+1,text.indexOf("]",i+1)))
+            var time = parseInt(text.slice(i+1,text.indexOf("]",i+1)))
             if(!instant){
                 await delay(time)
             }
             i = text.indexOf("]",i+1)
         } else if(text[i]==">"){
-            textBox.innerHTML = moveSpanToEnd(textBox.innerHTML+"&gt;")
+            textBox.innerHTML = moveTagToEnd("</span>",textBox.innerHTML+"&gt;")
+            if(!instant){
+                await delay(textSpeed)
+            }
+        } else if(text[i]=="\\" && text[i+1]=="["){
+            textBox.innerHTML = moveTagToEnd("</span>",textBox.innerHTML+"[")
+            i++
             if(!instant){
                 await delay(textSpeed)
             }
         } else {
-            textBox.innerHTML = moveSpanToEnd(textBox.innerHTML+text[i])
+            textBox.innerHTML = moveTagToEnd("</span>",textBox.innerHTML+text[i])
             if(!instant){
                 await delay(textSpeed)
             }
         }
     }
-    textBox.innerHTML = moveSpanToEnd(textBox.innerHTML)
+    textBox.innerHTML = moveTagToEnd("</span>",textBox.innerHTML)
 }
 
 var stripMarkdown = function(text){
@@ -213,6 +219,6 @@ var main = async function(event,text){
     await storyLoop(stories)
 }
 
-document.addEventListener("DOMContentLoaded", async function(ev){fetch(new Request('http://gurzilliancalendar.org/file?file=story'))
+document.addEventListener("DOMContentLoaded", async function(ev){fetch(new Request('http://localhost:3000/file?file=story'))
 .then(response => response.text())
 .then(text => main(ev,text))})

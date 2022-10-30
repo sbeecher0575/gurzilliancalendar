@@ -1,4 +1,4 @@
-{T}Planet 10: Attack of the <ul>Earthlings</ul>\p
+{T}Planet 10: Attack of the <u>Earthlings</u>\p
 [1000]{A}   It was a particularly shady day on Planet 10.
 Every day was shady on Planet 10 because the
 Star was really bright so they planted a lot of
@@ -479,6 +479,6 @@ from here.\p
 megaphone from his pack and began the
 broadcast.\p
     The knights froze. Gerald read them
-the news: the joys and sorrows, the esciting, the
+the news: the joys and sorrows, the exciting, the
 mundane, and the whirlwind that was about to
 strike.
